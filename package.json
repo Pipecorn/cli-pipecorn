@@ -1,0 +1,96 @@
+{
+  "name": "@prontohq/cli",
+  "version": "0.1.0",
+  "description": "Command-line interface for Pronto — B2B sales intelligence",
+  "type": "module",
+  "bin": {
+    "pronto": "./bin/run.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "oclif.manifest.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "npm run build && oclif manifest",
+    "postpack": "rm -f oclif.manifest.json",
+    "dev": "tsx bin/run.ts",
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix",
+    "format": "prettier --write src test",
+    "format:check": "prettier --check src test",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check:schemas": "tsx scripts/check-schema-drift.ts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@oclif/core": "^4.0.0",
+    "@oclif/plugin-autocomplete": "^3.2.0",
+    "@oclif/plugin-help": "^6.2.0",
+    "@oclif/plugin-not-found": "^3.2.0",
+    "chalk": "^5.3.0",
+    "conf": "^13.0.0",
+    "csv-parse": "^5.5.0",
+    "csv-stringify": "^6.5.0",
+    "ora": "^8.1.0",
+    "p-limit": "^6.1.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@oclif/test": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "msw": "^2.6.0",
+    "oclif": "^4.15.0",
+    "prettier": "^3.3.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "oclif": {
+    "bin": "pronto",
+    "dirname": "pronto",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-not-found",
+      "@oclif/plugin-autocomplete"
+    ],
+    "topicSeparator": " ",
+    "topics": {
+      "accounts": {
+        "description": "Search and enrich companies"
+      },
+      "leads": {
+        "description": "Search and enrich people"
+      },
+      "contacts": {
+        "description": "Enrich contacts with email and phone"
+      },
+      "lists": {
+        "description": "Manage account and lead lists"
+      },
+      "personas": {
+        "description": "View ICP personas"
+      },
+      "jobs": {
+        "description": "Track async searches and enrichments"
+      },
+      "signals": {
+        "description": "Track buying intent signals"
+      },
+      "config": {
+        "description": "Read and write CLI configuration"
+      }
+    }
+  }
+}

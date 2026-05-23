@@ -1,0 +1,8 @@
+node_modules/
+dist/
+oclif.manifest.json
+*.log
+.DS_Store
+.env
+.env.local
+coverage/
