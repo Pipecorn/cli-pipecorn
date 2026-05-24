@@ -14,7 +14,7 @@ export function render(data: unknown, format: Format): string {
     case "csv":
       return renderCsv(toRows(data));
     case "table":
-      return renderTable(toRows(data));
+      return renderTable(data);
   }
 }
 
@@ -50,7 +50,17 @@ function renderCsv(rows: Record<string, unknown>[]): string {
   return stringify(rows, { header: true, columns }).trimEnd();
 }
 
-function renderTable(rows: Record<string, unknown>[]): string {
+function renderTable(data: unknown): string {
+  if (Array.isArray(data)) {
+    return renderRowTable(data.map((d) => flattenForRow(d)));
+  }
+  if (data && typeof data === "object") {
+    return renderKeyValueTable(flattenObject(data as Record<string, unknown>));
+  }
+  return data === null || data === undefined ? "(no results)" : String(data);
+}
+
+function renderRowTable(rows: Record<string, unknown>[]): string {
   if (rows.length === 0) return "(no results)";
   const columns = uniqueColumns(rows);
   const widths = columns.map((c) =>
@@ -75,6 +85,48 @@ function renderTable(rows: Record<string, unknown>[]): string {
     )
     .join("\n");
   return `${header}\n${sep}\n${body}`;
+}
+
+function renderKeyValueTable(pairs: Array<[string, unknown]>): string {
+  if (pairs.length === 0) return "(no results)";
+  const keyWidth = Math.max(5, ...pairs.map(([k]) => k.length));
+  const valueWidth = Math.max(
+    5,
+    ...pairs.map(([, v]) => String(v ?? "").length),
+  );
+  const cappedValueWidth = Math.min(valueWidth, 80);
+  const header = `${"field".padEnd(keyWidth)}  ${"value".padEnd(cappedValueWidth)}`;
+  const sep = `${"-".repeat(keyWidth)}  ${"-".repeat(cappedValueWidth)}`;
+  const body = pairs
+    .map(([k, v]) => {
+      const value = truncate(String(v ?? ""), cappedValueWidth);
+      return `${k.padEnd(keyWidth)}  ${value}`;
+    })
+    .join("\n");
+  return `${header}\n${sep}\n${body}`;
+}
+
+function flattenObject(
+  obj: Record<string, unknown>,
+  prefix = "",
+): Array<[string, unknown]> {
+  const out: Array<[string, unknown]> = [];
+  for (const [k, v] of Object.entries(obj)) {
+    const key = prefix ? `${prefix}.${k}` : k;
+    if (v !== null && typeof v === "object" && !Array.isArray(v)) {
+      const nested = flattenObject(v as Record<string, unknown>, key);
+      if (nested.length === 0) {
+        out.push([key, "{}"]);
+      } else {
+        out.push(...nested);
+      }
+    } else if (Array.isArray(v)) {
+      out.push([key, JSON.stringify(v)]);
+    } else {
+      out.push([key, v]);
+    }
+  }
+  return out;
 }
 
 function uniqueColumns(rows: Record<string, unknown>[]): string[] {
