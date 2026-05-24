@@ -3,6 +3,15 @@
   "version": "0.1.0",
   "description": "Command-line interface for Pronto — B2B sales intelligence",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProntoHQ/cli-pronto.git"
+  },
+  "homepage": "https://github.com/ProntoHQ/cli-pronto#readme",
+  "bugs": {
+    "url": "https://github.com/ProntoHQ/cli-pronto/issues"
+  },
+  "license": "MIT",
   "bin": {
     "pronto": "./bin/run.js"
   },
