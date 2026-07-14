@@ -1,4 +1,4 @@
-import type { ProntoClient } from "./client.js";
+import type { PipecornClient } from "./client.js";
 
 export interface AccountInfo {
   email?: string;
@@ -24,7 +24,7 @@ export interface Search extends SearchSummary {
   results?: unknown[];
 }
 
-export interface PronListItem {
+export interface PipecornListItem {
   id: string;
   name?: string;
   kind?: string;
@@ -39,113 +39,113 @@ export interface Persona {
 }
 
 export const Account = {
-  me: (c: ProntoClient) => c.get<AccountInfo>("/account"),
-  credits: (c: ProntoClient) => c.get<Credits>("/credits"),
+  me: (c: PipecornClient) => c.get<AccountInfo>("/account"),
+  credits: (c: PipecornClient) => c.get<Credits>("/credits"),
 };
 
 export const Accounts = {
-  search: (c: ProntoClient, body: unknown) =>
+  search: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string; preview?: unknown; total?: number }>(
       "/accounts/search",
       body,
     ),
-  searchPreview: (c: ProntoClient, body: unknown) =>
+  searchPreview: (c: PipecornClient, body: unknown) =>
     c.post<{ total_count?: number; preview?: unknown[] }>(
       "/accounts/search/preview",
       body,
     ),
-  enrich: (c: ProntoClient, body: unknown) =>
+  enrich: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/accounts/single_enrich", body),
-  bulkEnrich: (c: ProntoClient, body: unknown) =>
+  bulkEnrich: (c: PipecornClient, body: unknown) =>
     c.post<{ enrichment_id?: string }>("/accounts/bulk_enrich", body),
-  companyStack: (c: ProntoClient, body: unknown) =>
+  companyStack: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/accounts/company_stack", body),
-  headcount: (c: ProntoClient, body: unknown) =>
+  headcount: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/accounts/headcount", body),
-  countProfiles: (c: ProntoClient, body: unknown) =>
+  countProfiles: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/accounts/count_profiles", body),
-  extract: (c: ProntoClient, body: unknown) =>
+  extract: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/accounts/", body),
 };
 
 export const Leads = {
-  advancedSearch: (c: ProntoClient, body: unknown) =>
+  advancedSearch: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string; preview?: unknown; total?: number }>(
       "/leads/advanced_search",
       body,
     ),
-  advancedSearchPreview: (c: ProntoClient, body: unknown) =>
+  advancedSearchPreview: (c: PipecornClient, body: unknown) =>
     c.post<{ total_count?: number; preview?: unknown[] }>(
       "/leads/advanced_search/preview",
       body,
     ),
-  enrich: (c: ProntoClient, body: unknown) =>
+  enrich: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/leads/single_enrich", body),
-  bulkEnrich: (c: ProntoClient, body: unknown) =>
+  bulkEnrich: (c: PipecornClient, body: unknown) =>
     c.post<{ enrichment_id?: string }>("/leads/bulk_enrich", body),
-  searchInCompany: (c: ProntoClient, body: unknown) =>
+  searchInCompany: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/leads/search", body),
-  fromSalesNav: (c: ProntoClient, body: unknown) =>
+  fromSalesNav: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/leads", body),
 };
 
 export const Contacts = {
-  singleEnrich: (c: ProntoClient, body: unknown) =>
+  singleEnrich: (c: PipecornClient, body: unknown) =>
     c.post<{ enrichment_id?: string }>("/contacts/single_enrich", body),
-  get: (c: ProntoClient, id: string) =>
+  get: (c: PipecornClient, id: string) =>
     c.get<unknown>(`/contacts/${encodeURIComponent(id)}`),
-  bulkEnrich: (c: ProntoClient, body: unknown) =>
+  bulkEnrich: (c: PipecornClient, body: unknown) =>
     c.post<{ enrichment_id?: string }>("/contacts/bulk_enrich", body),
-  checkAvailability: (c: ProntoClient, body: unknown) =>
+  checkAvailability: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/contacts/check_data_availability", body),
 };
 
 export const Searches = {
-  list: (c: ProntoClient) => c.get<SearchSummary[]>("/searches"),
-  get: (c: ProntoClient, id: string) =>
+  list: (c: PipecornClient) => c.get<SearchSummary[]>("/searches"),
+  get: (c: PipecornClient, id: string) =>
     c.get<Search>(`/searches/${encodeURIComponent(id)}`),
-  delete: (c: ProntoClient, id: string) =>
+  delete: (c: PipecornClient, id: string) =>
     c.delete<unknown>(`/searches/${encodeURIComponent(id)}`),
 };
 
 export const Lists = {
-  list: (c: ProntoClient) => c.get<PronListItem[]>("/lists"),
-  create: (c: ProntoClient, body: unknown) =>
-    c.post<PronListItem>("/lists", body),
-  get: (c: ProntoClient, id: string) =>
-    c.get<PronListItem>(`/lists/${encodeURIComponent(id)}`),
-  update: (c: ProntoClient, id: string, body: unknown) =>
-    c.put<PronListItem>(`/lists/${encodeURIComponent(id)}`, body),
+  list: (c: PipecornClient) => c.get<PipecornListItem[]>("/lists"),
+  create: (c: PipecornClient, body: unknown) =>
+    c.post<PipecornListItem>("/lists", body),
+  get: (c: PipecornClient, id: string) =>
+    c.get<PipecornListItem>(`/lists/${encodeURIComponent(id)}`),
+  update: (c: PipecornClient, id: string, body: unknown) =>
+    c.put<PipecornListItem>(`/lists/${encodeURIComponent(id)}`, body),
 };
 
 export const Personas = {
-  list: (c: ProntoClient) => c.get<Persona[]>("/personas"),
-  get: (c: ProntoClient, uuid: string) =>
+  list: (c: PipecornClient) => c.get<Persona[]>("/personas"),
+  get: (c: PipecornClient, uuid: string) =>
     c.get<Persona>(`/personas/${encodeURIComponent(uuid)}`),
 };
 
 export const Locations = {
-  search: (c: ProntoClient, body: { query: string }) =>
+  search: (c: PipecornClient, body: { query: string }) =>
     c.post<unknown>("/locations", body),
 };
 
 export const Intents = {
-  hiring: (c: ProntoClient, body: unknown) =>
+  hiring: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/intents/accounts/hiring", body),
-  growth: (c: ProntoClient, body: unknown) =>
+  growth: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/intents/accounts/growth", body),
-  lookalikes: (c: ProntoClient, body: unknown) =>
+  lookalikes: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/intents/accounts/lookalikes", body),
-  postEngagers: (c: ProntoClient, body: unknown) =>
+  postEngagers: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/intents/leads/posts_engagers", body),
-  posts: (c: ProntoClient, body: unknown) =>
+  posts: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/intents/leads/posts", body),
-  reactions: (c: ProntoClient, body: unknown) =>
+  reactions: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/intents/leads/reactions", body),
-  comments: (c: ProntoClient, body: unknown) =>
+  comments: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/intents/leads/comments", body),
-  trackJobChanges: (c: ProntoClient, body: unknown) =>
+  trackJobChanges: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/intents/leads/track_job_changes", body),
-  findNewHires: (c: ProntoClient, body: unknown) =>
+  findNewHires: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/intents/leads/find_new_hires", body),
 };

@@ -1,18 +1,18 @@
 import { Flags } from "@oclif/core";
 import { Accounts } from "../../api/endpoints.js";
 import { enrichAccountSchema } from "../../api/schemas.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class AccountsEnrich extends ProntoCommand {
+export default class AccountsEnrich extends PipecornCommand {
   static override description = "Enrich a single company by domain, name, or LinkedIn URL.";
 
   static override examples = [
-    "$ pronto accounts enrich --domain stripe.com",
-    "$ pronto accounts enrich --linkedin-url https://linkedin.com/company/stripe",
+    "$ pipecorn accounts enrich --domain stripe.com",
+    "$ pipecorn accounts enrich --linkedin-url https://linkedin.com/company/stripe",
   ];
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     domain: Flags.string({ description: "Company website domain" }),
     name: Flags.string({ description: "Company name" }),
     "linkedin-url": Flags.string({ description: "LinkedIn company profile URL" }),

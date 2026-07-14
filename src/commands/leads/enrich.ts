@@ -1,12 +1,12 @@
 import { Flags } from "@oclif/core";
 import { Leads } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class LeadsEnrich extends ProntoCommand {
+export default class LeadsEnrich extends PipecornCommand {
   static override description = "Enrich a single LinkedIn profile.";
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     "linkedin-url": Flags.string({
       description: "LinkedIn profile URL",
       required: true,

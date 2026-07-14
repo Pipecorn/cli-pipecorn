@@ -1,8 +1,8 @@
 import { Args } from "@oclif/core";
 import { Locations } from "../api/endpoints.js";
-import { ProntoCommand } from "../lib/base-command.js";
+import { PipecornCommand } from "../lib/base-command.js";
 
-export default class LocationsSearch extends ProntoCommand {
+export default class LocationsSearch extends PipecornCommand {
   static override description =
     "Resolve a free-text location to LinkedIn geoRegion IDs (use with --included-locations).";
 
@@ -10,7 +10,7 @@ export default class LocationsSearch extends ProntoCommand {
     query: Args.string({ description: "Location query (e.g. 'Paris')", required: true }),
   };
 
-  static override flags = { ...ProntoCommand.baseFlags };
+  static override flags = { ...PipecornCommand.baseFlags };
 
   async run(): Promise<void> {
     const { args, flags } = await this.parse(LocationsSearch);

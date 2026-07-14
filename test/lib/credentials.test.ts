@@ -12,18 +12,18 @@ import {
 
 describe("credentials", () => {
   const originalXdg = process.env.XDG_CONFIG_HOME;
-  const originalKey = process.env.PRONTO_API_KEY;
+  const originalKey = process.env.PIPECORN_API_KEY;
 
   beforeEach(() => {
-    process.env.XDG_CONFIG_HOME = mkdtempSync(path.join(tmpdir(), "pronto-cli-"));
-    delete process.env.PRONTO_API_KEY;
+    process.env.XDG_CONFIG_HOME = mkdtempSync(path.join(tmpdir(), "pipecorn-cli-"));
+    delete process.env.PIPECORN_API_KEY;
   });
 
   afterEach(() => {
     if (originalXdg === undefined) delete process.env.XDG_CONFIG_HOME;
     else process.env.XDG_CONFIG_HOME = originalXdg;
-    if (originalKey === undefined) delete process.env.PRONTO_API_KEY;
-    else process.env.PRONTO_API_KEY = originalKey;
+    if (originalKey === undefined) delete process.env.PIPECORN_API_KEY;
+    else process.env.PIPECORN_API_KEY = originalKey;
   });
 
   it("writes credentials with 0600 perms", async () => {
@@ -50,10 +50,10 @@ describe("credentials", () => {
 
   it("resolveAuth prefers flag over env over file", async () => {
     await writeCredentials({ api_key: "from-file", saved_at: "now" });
-    process.env.PRONTO_API_KEY = "from-env";
+    process.env.PIPECORN_API_KEY = "from-env";
     expect((await resolveAuth("from-flag")).apiKey).toBe("from-flag");
     expect((await resolveAuth(undefined)).apiKey).toBe("from-env");
-    delete process.env.PRONTO_API_KEY;
+    delete process.env.PIPECORN_API_KEY;
     expect((await resolveAuth(undefined)).apiKey).toBe("from-file");
   });
 

@@ -1,10 +1,10 @@
-import { ProntoClient, DEFAULT_BASE_URL } from "../api/client.js";
+import { PipecornClient, DEFAULT_BASE_URL } from "../api/client.js";
 import { configStore } from "./config.js";
 import { resolveAuth } from "./credentials.js";
 
-export async function buildClient(flagKey?: string): Promise<ProntoClient> {
+export async function buildClient(flagKey?: string): Promise<PipecornClient> {
   const auth = await resolveAuth(flagKey);
   const fromConfig = configStore().get("base_url");
   const baseUrl = auth.baseUrl ?? fromConfig ?? DEFAULT_BASE_URL;
-  return new ProntoClient({ apiKey: auth.apiKey, baseUrl });
+  return new PipecornClient({ apiKey: auth.apiKey, baseUrl });
 }

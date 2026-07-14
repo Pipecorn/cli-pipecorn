@@ -1,12 +1,12 @@
 import { Flags } from "@oclif/core";
 import { Accounts } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class AccountsStack extends ProntoCommand {
+export default class AccountsStack extends PipecornCommand {
   static override description = "Look up a company's tech stack.";
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     domain: Flags.string({ description: "Company website domain" }),
     name: Flags.string({ description: "Company name" }),
     "linkedin-url": Flags.string({ description: "LinkedIn company URL" }),

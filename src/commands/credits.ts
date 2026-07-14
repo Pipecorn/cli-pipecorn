@@ -1,10 +1,10 @@
 import { Account } from "../api/endpoints.js";
-import { ProntoCommand } from "../lib/base-command.js";
+import { PipecornCommand } from "../lib/base-command.js";
 
-export default class Credits extends ProntoCommand {
+export default class Credits extends PipecornCommand {
   static override description = "Show the current credit balance for the authenticated account.";
 
-  static override flags = { ...ProntoCommand.baseFlags };
+  static override flags = { ...PipecornCommand.baseFlags };
 
   async run(): Promise<void> {
     const { flags } = await this.parse(Credits);

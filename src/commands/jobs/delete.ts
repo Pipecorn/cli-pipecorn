@@ -1,16 +1,16 @@
 import { Args } from "@oclif/core";
 import chalk from "chalk";
 import { Searches } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class JobsDelete extends ProntoCommand {
+export default class JobsDelete extends PipecornCommand {
   static override description = "Delete a saved search.";
 
   static override args = {
     id: Args.string({ description: "Search/job ID", required: true }),
   };
 
-  static override flags = { ...ProntoCommand.baseFlags };
+  static override flags = { ...PipecornCommand.baseFlags };
 
   async run(): Promise<void> {
     const { args, flags } = await this.parse(JobsDelete);

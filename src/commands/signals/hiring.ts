@@ -1,13 +1,13 @@
 import { Flags } from "@oclif/core";
 import { Intents } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class SignalsHiring extends ProntoCommand {
+export default class SignalsHiring extends PipecornCommand {
   static override description =
     "Find companies actively hiring. Results stream to --webhook-url.";
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     "webhook-url": Flags.string({
       description: "Webhook URL to receive matches",
       required: true,

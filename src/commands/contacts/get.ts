@@ -1,15 +1,15 @@
 import { Args } from "@oclif/core";
 import { Contacts } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class ContactsGet extends ProntoCommand {
+export default class ContactsGet extends PipecornCommand {
   static override description = "Fetch a previously-enriched contact by enrichment id.";
 
   static override args = {
     id: Args.string({ description: "Enrichment ID", required: true }),
   };
 
-  static override flags = { ...ProntoCommand.baseFlags };
+  static override flags = { ...PipecornCommand.baseFlags };
 
   async run(): Promise<void> {
     const { args, flags } = await this.parse(ContactsGet);

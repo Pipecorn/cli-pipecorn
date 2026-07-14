@@ -1,19 +1,19 @@
 import { Flags } from "@oclif/core";
 import { Accounts } from "../../api/endpoints.js";
 import { searchAccountsSchema } from "../../api/schemas.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class AccountsSearch extends ProntoCommand {
+export default class AccountsSearch extends PipecornCommand {
   static override description =
-    "Start a company search. Returns a job ID — poll with `pronto jobs status <id>`.";
+    "Start a company search. Returns a job ID — poll with `pipecorn jobs status <id>`.";
 
   static override examples = [
-    "$ pronto accounts search --keyword '\"sales agency\"' --company-size 11-50 --limit 100",
-    "$ pronto accounts search --preview --keyword 'fintech'   # synchronous count + sample",
+    "$ pipecorn accounts search --keyword '\"sales agency\"' --company-size 11-50 --limit 100",
+    "$ pipecorn accounts search --preview --keyword 'fintech'   # synchronous count + sample",
   ];
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     name: Flags.string({ description: "Display name for the saved search" }),
     keyword: Flags.string({ description: "Boolean keyword query" }),
     "included-industries": Flags.string({ multiple: true }),

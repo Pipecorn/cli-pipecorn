@@ -1,7 +1,7 @@
 import { Args, Flags } from "@oclif/core";
 import chalk from "chalk";
 import { Searches, type Search } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
 const TERMINAL_STATUSES = new Set([
   "FINISHED",
@@ -11,7 +11,7 @@ const TERMINAL_STATUSES = new Set([
   "FORBIDDEN",
 ]);
 
-export default class JobsStatus extends ProntoCommand {
+export default class JobsStatus extends PipecornCommand {
   static override description =
     "Show the status of a search (job). Use --watch to poll until it finishes.";
 
@@ -20,7 +20,7 @@ export default class JobsStatus extends ProntoCommand {
   };
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     watch: Flags.boolean({ description: "Poll until the job reaches a terminal status" }),
     interval: Flags.integer({
       description: "Polling interval in seconds (with --watch)",
