@@ -5,23 +5,23 @@ import {
   singleEnrichContactSchema,
   type ContactInput,
 } from "../../api/schemas.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 import { readCsvRows } from "../../lib/csv.js";
 
 type EnrichmentType = "email" | "phone" | "personal_email";
 
-export default class ContactsEnrich extends ProntoCommand {
+export default class ContactsEnrich extends PipecornCommand {
   static override description =
     "Enrich contacts with email or phone. Pass --batch to enqueue a CSV (async; returns enrichment_id).";
 
   static override examples = [
-    "$ pronto contacts enrich --firstname Ada --lastname Lovelace --domain mathmatics.example",
-    "$ pronto contacts enrich --batch contacts.csv --enrichment email --webhook-url https://my.app/hook",
-    "$ pronto contacts enrich --batch contacts.csv --enrichment phone --dry-run",
+    "$ pipecorn contacts enrich --firstname Ada --lastname Lovelace --domain mathmatics.example",
+    "$ pipecorn contacts enrich --batch contacts.csv --enrichment email --webhook-url https://my.app/hook",
+    "$ pipecorn contacts enrich --batch contacts.csv --enrichment phone --dry-run",
   ];
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     firstname: Flags.string({ description: "First name (single mode)" }),
     lastname: Flags.string({ description: "Last name (single mode)" }),
     domain: Flags.string({ description: "Company domain (single mode)" }),

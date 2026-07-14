@@ -1,21 +1,21 @@
 import { Args, Flags } from "@oclif/core";
 import chalk from "chalk";
-import { ProntoClient, DEFAULT_BASE_URL } from "../api/client.js";
+import { PipecornClient, DEFAULT_BASE_URL } from "../api/client.js";
 import { Account } from "../api/endpoints.js";
-import { ProntoCommand } from "../lib/base-command.js";
+import { PipecornCommand } from "../lib/base-command.js";
 import { configStore } from "../lib/config.js";
 import {
   credentialsPath,
   writeCredentials,
 } from "../lib/credentials.js";
 
-export default class Login extends ProntoCommand {
+export default class Login extends PipecornCommand {
   static override description =
-    "Save a Pronto API key locally after validating it against the API.";
+    "Save a Pipecorn API key locally after validating it against the API.";
 
   static override examples = [
-    "$ pronto login --api-key pk_live_…",
-    "$ PRONTO_API_KEY=pk_live_… pronto login",
+    "$ pipecorn login --api-key pk_live_…",
+    "$ PIPECORN_API_KEY=pk_live_… pipecorn login",
   ];
 
   static override args = {
@@ -25,7 +25,7 @@ export default class Login extends ProntoCommand {
   static override flags = {
     "api-key": Flags.string({
       description: "API key value",
-      env: "PRONTO_API_KEY",
+      env: "PIPECORN_API_KEY",
     }),
     "base-url": Flags.string({
       description: `Override API base URL (default: ${DEFAULT_BASE_URL})`,
@@ -37,12 +37,12 @@ export default class Login extends ProntoCommand {
     const key = args.key ?? flags["api-key"];
     if (!key) {
       this.error(
-        "Provide an API key: `pronto login <key>` or set PRONTO_API_KEY. Get a key at https://app.prontohq.com/settings/apis/keys",
+        "Provide an API key: `pipecorn login <key>` or set PIPECORN_API_KEY. Get a key at https://app.pipecorn.com/settings/apis/keys",
         { exit: 2 },
       );
     }
     const baseUrl = flags["base-url"] ?? DEFAULT_BASE_URL;
-    const client = new ProntoClient({ apiKey: key, baseUrl });
+    const client = new PipecornClient({ apiKey: key, baseUrl });
     const account = await Account.me(client);
 
     await writeCredentials({

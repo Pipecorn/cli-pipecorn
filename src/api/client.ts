@@ -2,30 +2,30 @@ import {
   AuthError,
   CreditError,
   PlanLimitError,
-  ProntoError,
+  PipecornError,
   RateLimitError,
 } from "./errors.js";
 
-export const DEFAULT_BASE_URL = "https://app.prontohq.com/api/v2";
+export const DEFAULT_BASE_URL = "https://app.pipecorn.com/api/v2";
 export const KEY_HEADER = "X-API-KEY";
 
-export interface ProntoClientOptions {
+export interface PipecornClientOptions {
   apiKey: string;
   baseUrl?: string;
   userAgent?: string;
   timeoutMs?: number;
 }
 
-export class ProntoClient {
+export class PipecornClient {
   private readonly apiKey: string;
   readonly baseUrl: string;
   private readonly userAgent: string;
   private readonly timeoutMs: number;
 
-  constructor(opts: ProntoClientOptions) {
+  constructor(opts: PipecornClientOptions) {
     this.apiKey = opts.apiKey;
     this.baseUrl = opts.baseUrl ?? DEFAULT_BASE_URL;
-    this.userAgent = opts.userAgent ?? "pronto-cli";
+    this.userAgent = opts.userAgent ?? "pipecorn-cli";
     this.timeoutMs = opts.timeoutMs ?? 60_000;
   }
 
@@ -92,7 +92,7 @@ function buildError(
   status: number,
   headers: Headers,
   body: unknown,
-): ProntoError {
+): PipecornError {
   const message = extractMessage(body) ?? `HTTP ${status}`;
 
   if (status === 401 || status === 403) return new AuthError(body);
@@ -112,7 +112,7 @@ function buildError(
     }
   }
 
-  return new ProntoError(`Pronto API error ${status}: ${message}`, status, body);
+  return new PipecornError(`Pipecorn API error ${status}: ${message}`, status, body);
 }
 
 function extractMessage(body: unknown): string | undefined {

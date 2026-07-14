@@ -1,14 +1,14 @@
 import { Flags } from "@oclif/core";
 import { Intents } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class SignalsJobChanges extends ProntoCommand {
+export default class SignalsJobChanges extends PipecornCommand {
   static override aliases = ["signals:track-job-changes"];
   static override description =
     "Track when leads in a list change jobs. Streams to --webhook-url.";
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     "webhook-url": Flags.string({ required: true }),
     "lead-list-id": Flags.string({
       description: "Lead list to monitor",

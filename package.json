@@ -1,19 +1,19 @@
 {
-  "name": "@prontohq/cli",
+  "name": "@pipecorn/cli",
   "version": "0.1.2",
-  "description": "Command-line interface for Pronto — B2B sales intelligence",
+  "description": "Command-line interface for Pipecorn — B2B sales intelligence",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ProntoHQ/cli-pronto.git"
+    "url": "git+https://github.com/pipecorn/cli-pipecorn.git"
   },
-  "homepage": "https://github.com/ProntoHQ/cli-pronto#readme",
+  "homepage": "https://github.com/pipecorn/cli-pipecorn#readme",
   "bugs": {
-    "url": "https://github.com/ProntoHQ/cli-pronto/issues"
+    "url": "https://github.com/pipecorn/cli-pipecorn/issues"
   },
   "license": "MIT",
   "bin": {
-    "pronto": "./bin/run.js"
+    "pipecorn": "./bin/run.js"
   },
   "files": [
     "bin",
@@ -66,8 +66,8 @@
     "vitest": "^2.1.0"
   },
   "oclif": {
-    "bin": "pronto",
-    "dirname": "pronto",
+    "bin": "pipecorn",
+    "dirname": "pipecorn",
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help",

@@ -2,9 +2,9 @@ import { Args, Flags } from "@oclif/core";
 import { promises as fs } from "node:fs";
 import { stringify } from "csv-stringify/sync";
 import { Lists } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class ListsExport extends ProntoCommand {
+export default class ListsExport extends PipecornCommand {
   static override description =
     "Export a list to CSV. Writes to stdout by default; use -o to write a file.";
 
@@ -13,7 +13,7 @@ export default class ListsExport extends ProntoCommand {
   };
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     output: Flags.string({ char: "o", description: "Output file (default: stdout)" }),
   };
 

@@ -1,10 +1,10 @@
 import { Lists } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class ListsList extends ProntoCommand {
+export default class ListsList extends PipecornCommand {
   static override description = "List all account and lead lists.";
 
-  static override flags = { ...ProntoCommand.baseFlags };
+  static override flags = { ...PipecornCommand.baseFlags };
 
   async run(): Promise<void> {
     const { flags } = await this.parse(ListsList);

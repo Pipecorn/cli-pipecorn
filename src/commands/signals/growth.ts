@@ -1,13 +1,13 @@
 import { Flags } from "@oclif/core";
 import { Intents } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class SignalsGrowth extends ProntoCommand {
+export default class SignalsGrowth extends PipecornCommand {
   static override description =
     "Find companies with notable headcount growth. Streams to --webhook-url.";
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     "webhook-url": Flags.string({ required: true }),
     "min-growth-percent": Flags.integer(),
     "min-headcount": Flags.integer(),

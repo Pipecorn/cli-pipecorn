@@ -1,6 +1,6 @@
-# @prontohq/cli
+# @pipecorn/cli
 
-`pronto` — command-line interface for [Pronto](https://prontohq.com),
+`pipecorn` — command-line interface for [Pipecorn](https://pipecorn.com),
 the B2B sales-intelligence platform. Search leads and accounts, enrich
 contacts in bulk from CSV, manage lists, and stream buying-intent signals
 to your webhook — all from your terminal or a shell script.
@@ -9,52 +9,52 @@ to your webhook — all from your terminal or a shell script.
 
 ```sh
 # npm (no global install needed)
-npx @prontohq/cli --help
+npx @pipecorn/cli --help
 
 # global install
-npm install -g @prontohq/cli
+npm install -g @pipecorn/cli
 
 # Homebrew
-brew install prontohq/pronto/pronto
+brew install pipecorn/pipecorn/pipecorn
 ```
 
 ## Authenticate
 
-Get an API key at <https://app.prontohq.com/settings/apis/keys>, then:
+Get an API key at <https://app.pipecorn.com/settings/apis/keys>, then:
 
 ```sh
-pronto login pk_live_xxx
+pipecorn login pk_live_xxx
 # or
-export PRONTO_API_KEY=pk_live_xxx
-pronto whoami
+export PIPECORN_API_KEY=pk_live_xxx
+pipecorn whoami
 ```
 
-Credentials are stored at `~/.config/pronto/credentials.json` with mode
-`0600`. `PRONTO_API_KEY` always wins over the saved file; `--api-key` on
+Credentials are stored at `~/.config/pipecorn/credentials.json` with mode
+`0600`. `PIPECORN_API_KEY` always wins over the saved file; `--api-key` on
 any command wins over both.
 
 ## Quick examples
 
 ```sh
 # Preview an account search (sync, free)
-pronto accounts search --preview --keyword '"sales agency"' --company-size 11-50
+pipecorn accounts search --preview --keyword '"sales agency"' --company-size 11-50
 
 # Start an async lead search and poll until it finishes
-JOB=$(pronto leads search --job-titles 'Head of Sales' --limit 50 --format json | jq -r .id)
-pronto jobs status "$JOB" --watch
+JOB=$(pipecorn leads search --job-titles 'Head of Sales' --limit 50 --format json | jq -r .id)
+pipecorn jobs status "$JOB" --watch
 
 # Bulk-enrich contacts from CSV (async; prints enrichment_id)
-pronto contacts enrich --batch leads.csv --enrichment email \
-  --webhook-url https://my.app/webhooks/pronto
+pipecorn contacts enrich --batch leads.csv --enrichment email \
+  --webhook-url https://my.app/webhooks/pipecorn
 
 # Dry-run to see credit cost first
-pronto contacts enrich --batch leads.csv --enrichment phone --dry-run
+pipecorn contacts enrich --batch leads.csv --enrichment phone --dry-run
 
 # Export a list to CSV
-pronto lists export <list-id> -o list.csv
+pipecorn lists export <list-id> -o list.csv
 
 # Buying signals → webhook stream
-pronto signals hiring --webhook-url https://my.app/hook \
+pipecorn signals hiring --webhook-url https://my.app/hook \
   --selected-titles 'Account Executive' --published-date last_7_days
 ```
 
@@ -67,7 +67,7 @@ stderr; the exit code identifies the failure class:
 | code | meaning |
 |---|---|
 | 0 | success |
-| 1 | Pronto API error |
+| 1 | Pipecorn API error |
 | 2 | invalid input |
 | 3 | authentication |
 | 4 | rate limit |
@@ -76,14 +76,14 @@ stderr; the exit code identifies the failure class:
 ## Configuration
 
 ```sh
-pronto config list
-pronto config set base_url https://staging.prontohq.com/api/v2
-pronto config set default_format json
-pronto config get base_url
+pipecorn config list
+pipecorn config set base_url https://staging.pipecorn.com/api/v2
+pipecorn config set default_format json
+pipecorn config get base_url
 ```
 
 Config lives at the platform's standard XDG location
-(`~/.config/pronto/config.json` on Linux/macOS).
+(`~/.config/pipecorn/config.json` on Linux/macOS).
 
 ## Development
 
@@ -92,11 +92,11 @@ npm install
 npm run dev -- whoami           # run via tsx without building
 npm test
 npm run typecheck && npm run lint
-npm run check:schemas           # diff against pronto-api-doc
+npm run check:schemas           # diff against pipecorn-api-doc
 ```
 
-To point at a sibling `pronto-api-doc` checkout other than the default:
+To point at a sibling `pipecorn-api-doc` checkout other than the default:
 
 ```sh
-PRONTO_API_DOC_PATH=/path/to/pronto-api-doc npm run check:schemas
+PIPECORN_API_DOC_PATH=/path/to/pipecorn-api-doc npm run check:schemas
 ```

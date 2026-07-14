@@ -1,19 +1,19 @@
-export class ProntoError extends Error {
+export class PipecornError extends Error {
   readonly status: number;
   readonly body: unknown;
 
   constructor(message: string, status: number, body: unknown) {
     super(message);
-    this.name = "ProntoError";
+    this.name = "PipecornError";
     this.status = status;
     this.body = body;
   }
 }
 
-export class AuthError extends ProntoError {
+export class AuthError extends PipecornError {
   constructor(body: unknown, message?: string) {
     super(
-      message ?? "Authentication failed. Run `pronto login` or check PRONTO_API_KEY.",
+      message ?? "Authentication failed. Run `pipecorn login` or check PIPECORN_API_KEY.",
       401,
       body,
     );
@@ -21,7 +21,7 @@ export class AuthError extends ProntoError {
   }
 }
 
-export class RateLimitError extends ProntoError {
+export class RateLimitError extends PipecornError {
   readonly retryAfterSeconds: number | undefined;
 
   constructor(body: unknown, retryAfterSeconds: number | undefined) {
@@ -37,10 +37,10 @@ export class RateLimitError extends ProntoError {
   }
 }
 
-export class CreditError extends ProntoError {
+export class CreditError extends PipecornError {
   constructor(message: string, body: unknown) {
     super(
-      `${message}\nRecharge credits at https://app.prontohq.com/settings/subscriptions/credits`,
+      `${message}\nRecharge credits at https://app.pipecorn.com/settings/subscriptions/credits`,
       422,
       body,
     );
@@ -48,10 +48,10 @@ export class CreditError extends ProntoError {
   }
 }
 
-export class PlanLimitError extends ProntoError {
+export class PlanLimitError extends PipecornError {
   constructor(message: string, body: unknown) {
     super(
-      `${message}\nUpgrade your plan at https://app.prontohq.com/settings/subscriptions`,
+      `${message}\nUpgrade your plan at https://app.pipecorn.com/settings/subscriptions`,
       422,
       body,
     );
@@ -63,6 +63,6 @@ export function exitCodeFor(err: unknown): number {
   if (err instanceof AuthError) return 3;
   if (err instanceof RateLimitError) return 4;
   if (err instanceof CreditError || err instanceof PlanLimitError) return 5;
-  if (err instanceof ProntoError) return 1;
+  if (err instanceof PipecornError) return 1;
   return 2;
 }

@@ -1,19 +1,19 @@
 import { Flags } from "@oclif/core";
 import { Leads } from "../../api/endpoints.js";
 import { advancedSearchLeadsSchema } from "../../api/schemas.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class LeadsSearch extends ProntoCommand {
+export default class LeadsSearch extends PipecornCommand {
   static override description =
-    "Run an advanced lead search (Sales Navigator-style filters). Returns a job ID; poll with `pronto jobs status`.";
+    "Run an advanced lead search (Sales Navigator-style filters). Returns a job ID; poll with `pipecorn jobs status`.";
 
   static override examples = [
-    "$ pronto leads search --job-titles 'Head of Sales' --seniority-levels 130 --limit 50",
-    "$ pronto leads search --preview --keyword 'GTM' --company-size 51-200",
+    "$ pipecorn leads search --job-titles 'Head of Sales' --seniority-levels 130 --limit 50",
+    "$ pipecorn leads search --preview --keyword 'GTM' --company-size 51-200",
   ];
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     name: Flags.string({ description: "Display name for this search" }),
     keyword: Flags.string({ description: "Free-text keyword" }),
     "job-titles": Flags.string({ multiple: true }),

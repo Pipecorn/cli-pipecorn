@@ -3,7 +3,7 @@ import { homedir } from "node:os";
 import path from "node:path";
 import { AuthError } from "../api/errors.js";
 
-const ENV_VAR = "PRONTO_API_KEY";
+const ENV_VAR = "PIPECORN_API_KEY";
 
 export interface StoredCredentials {
   api_key: string;
@@ -14,7 +14,7 @@ export interface StoredCredentials {
 export function credentialsPath(): string {
   const xdg = process.env.XDG_CONFIG_HOME;
   const base = xdg && xdg.length > 0 ? xdg : path.join(homedir(), ".config");
-  return path.join(base, "pronto", "credentials.json");
+  return path.join(base, "pipecorn", "credentials.json");
 }
 
 export async function readCredentials(): Promise<StoredCredentials | undefined> {
@@ -74,8 +74,8 @@ export async function resolveAuth(
   throw new AuthError(
     {
       error:
-        "No API key found. Set PRONTO_API_KEY or run `pronto login`. Get a key at https://app.prontohq.com/settings/apis/keys.",
+        "No API key found. Set PIPECORN_API_KEY or run `pipecorn login`. Get a key at https://app.pipecorn.com/settings/apis/keys.",
     },
-    "No API key found. Set PRONTO_API_KEY or run `pronto login`. Get a key at https://app.prontohq.com/settings/apis/keys.",
+    "No API key found. Set PIPECORN_API_KEY or run `pipecorn login`. Get a key at https://app.pipecorn.com/settings/apis/keys.",
   );
 }

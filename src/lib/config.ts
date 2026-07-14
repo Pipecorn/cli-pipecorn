@@ -10,7 +10,7 @@ let store: Conf<CliConfig> | undefined;
 export function configStore(): Conf<CliConfig> {
   if (!store) {
     store = new Conf<CliConfig>({
-      projectName: "pronto",
+      projectName: "pipecorn",
       configName: "config",
       schema: {
         base_url: { type: "string" },

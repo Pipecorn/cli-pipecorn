@@ -1,16 +1,16 @@
 import { Command, Flags } from "@oclif/core";
 import chalk from "chalk";
 import type { ZodError } from "zod";
-import { ProntoError, exitCodeFor } from "../api/errors.js";
-import type { ProntoClient } from "../api/client.js";
+import { PipecornError, exitCodeFor } from "../api/errors.js";
+import type { PipecornClient } from "../api/client.js";
 import { buildClient } from "./client-factory.js";
 import { pickFormat, render, type Format } from "../output/format.js";
 
-export abstract class ProntoCommand extends Command {
+export abstract class PipecornCommand extends Command {
   static override baseFlags = {
     "api-key": Flags.string({
-      description: "Pronto API key (overrides env + saved credentials)",
-      env: "PRONTO_API_KEY",
+      description: "Pipecorn API key (overrides env + saved credentials)",
+      env: "PIPECORN_API_KEY",
       helpGroup: "GLOBAL",
     }),
     format: Flags.string({
@@ -29,7 +29,7 @@ export abstract class ProntoCommand extends Command {
     }),
   };
 
-  protected async client(flagKey?: string): Promise<ProntoClient> {
+  protected async client(flagKey?: string): Promise<PipecornClient> {
     return buildClient(flagKey);
   }
 
@@ -64,7 +64,7 @@ export abstract class ProntoCommand extends Command {
       }
       this.exit(2);
     }
-    if (err instanceof ProntoError) {
+    if (err instanceof PipecornError) {
       this.logToStderr(chalk.red(err.message));
       this.exit(exitCodeFor(err));
     }

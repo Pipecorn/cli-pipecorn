@@ -1,10 +1,10 @@
 /**
- * Compares the API endpoint surface declared in cli-pronto's
- * src/api/endpoints.ts against the endpoints documented in pronto-api-doc.
+ * Compares the API endpoint surface declared in cli-pipecorn's
+ * src/api/endpoints.ts against the endpoints documented in pipecorn-api-doc.
  * Fails the build when the doc lists a path the CLI doesn't call yet.
  *
- * Pass PRONTO_API_DOC_PATH to point at the api-doc checkout (default:
- * ../pronto-api-doc relative to this file).
+ * Pass PIPECORN_API_DOC_PATH to point at the api-doc checkout (default:
+ * ../pipecorn-api-doc relative to this file).
  */
 import { promises as fs } from "node:fs";
 import path from "node:path";
@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..");
 const docRoot =
-  process.env.PRONTO_API_DOC_PATH ?? path.resolve(repoRoot, "..", "pronto-api-doc");
+  process.env.PIPECORN_API_DOC_PATH ?? path.resolve(repoRoot, "..", "pipecorn-api-doc");
 
 const KNOWN_UNSUPPORTED = new Set<string>([
   // Document endpoints the CLI deliberately does not expose yet.

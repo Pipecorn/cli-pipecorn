@@ -1,8 +1,8 @@
 import { Args, Flags } from "@oclif/core";
 import { Lists } from "../../api/endpoints.js";
-import { ProntoCommand } from "../../lib/base-command.js";
+import { PipecornCommand } from "../../lib/base-command.js";
 
-export default class ListsUpdate extends ProntoCommand {
+export default class ListsUpdate extends PipecornCommand {
   static override description = "Rename a list.";
 
   static override args = {
@@ -10,7 +10,7 @@ export default class ListsUpdate extends ProntoCommand {
   };
 
   static override flags = {
-    ...ProntoCommand.baseFlags,
+    ...PipecornCommand.baseFlags,
     name: Flags.string({ description: "New list name", required: true }),
   };
 
