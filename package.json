@@ -12,6 +12,9 @@
     "url": "https://github.com/pipecorn/cli-pipecorn/issues"
   },
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "pipecorn": "./bin/run.js"
   },
