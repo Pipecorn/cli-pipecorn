@@ -5,11 +5,11 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pipecorn/cli-pipecorn.git"
+    "url": "git+https://github.com/Pipecorn/cli-pipecorn.git"
   },
-  "homepage": "https://github.com/pipecorn/cli-pipecorn#readme",
+  "homepage": "https://github.com/Pipecorn/cli-pipecorn#readme",
   "bugs": {
-    "url": "https://github.com/pipecorn/cli-pipecorn/issues"
+    "url": "https://github.com/Pipecorn/cli-pipecorn/issues"
   },
   "license": "MIT",
   "publishConfig": {
