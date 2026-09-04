@@ -1,6 +1,6 @@
 {
   "name": "@pipecorn/cli",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Command-line interface for Pipecorn — B2B sales intelligence",
   "type": "module",
   "repository": {
