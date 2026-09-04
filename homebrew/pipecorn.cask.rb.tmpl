@@ -1,0 +1,19 @@
+cask "pipecorn" do
+  arch arm: "arm64", intel: "x64"
+
+  version "{{VERSION}}"
+  sha256 arm:   "{{SHA256_DARWIN_ARM64}}",
+         intel: "{{SHA256_DARWIN_X64}}"
+
+  url "https://github.com/pipecorn/cli-pipecorn/releases/download/v#{version}/pipecorn-v#{version}-darwin-#{arch}.tar.gz"
+  name "Pipecorn CLI"
+  desc "Command-line interface for Pipecorn (B2B sales intelligence)"
+  homepage "https://github.com/pipecorn/cli-pipecorn"
+
+  binary "pipecorn/bin/pipecorn"
+
+  zap trash: [
+    "~/.config/pipecorn",
+    "~/.local/share/pipecorn",
+  ]
+end

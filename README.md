@@ -14,10 +14,15 @@ npx @pipecorn/cli --help
 # global install
 npm install -g @pipecorn/cli
 
-# Homebrew
+# Homebrew (macOS)
 brew tap pipecorn/tap
+brew trust pipecorn/tap
 brew install pipecorn
 ```
+
+`brew trust` is required once per machine: since Homebrew 6.0 formulae and
+casks from third-party taps are not loaded until you opt in. On Linux and
+Windows, install from npm.
 
 ## Authenticate
 
