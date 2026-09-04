@@ -59,31 +59,35 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Download release tarballs
+      - name: Download macOS release tarballs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release download "$GITHUB_REF_NAME" \
             --repo "$GITHUB_REPOSITORY" \
-            --pattern 'pipecorn-v*.tar.gz' \
+            --pattern 'pipecorn-v*-darwin-*.tar.gz' \
             --dir dist
-      - name: Render formula
+      - name: Render cask
         run: |
           version="${GITHUB_REF_NAME#v}"
-          scripts/render-homebrew-formula.sh "$version" dist > pipecorn.rb
+          scripts/render-homebrew-cask.sh "$version" dist > pipecorn.rb
           cat pipecorn.rb
-      - name: Push formula to pipecorn/homebrew-tap
+      - name: Push cask to pipecorn/homebrew-tap
         env:
           TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
         run: |
           version="${GITHUB_REF_NAME#v}"
           git clone --depth 1 \
             "https://x-access-token:$TAP_TOKEN@github.com/pipecorn/homebrew-tap.git" tap
-          mkdir -p tap/Formula
-          cp pipecorn.rb tap/Formula/pipecorn.rb
+          mkdir -p tap/Casks
+          cp pipecorn.rb tap/Casks/pipecorn.rb
+          # A formula sharing the token would win over the cask, and installing it
+          # counts as a source build: Homebrew then demands a current Xcode/CLT for
+          # a tarball that needs no compiler.
+          rm -f tap/Formula/pipecorn.rb
           cd tap
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Formula/pipecorn.rb
+          git add -A
           git diff --quiet --cached || git commit -m "pipecorn $version"
           git push
