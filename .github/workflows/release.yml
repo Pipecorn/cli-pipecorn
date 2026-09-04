@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
+          cache: npm
       - run: npm ci
       - run: npm test
       - run: npm publish --access public --provenance
@@ -32,8 +33,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
       - run: npm ci
-      - run: npx oclif pack tarballs --targets=linux-x64,linux-arm64,darwin-x64,darwin-arm64,win32-x64
+      # --no-xz: nothing consumes the .tar.xz assets and xz dominates this step.
+      - run: npx oclif pack tarballs --parallel --no-xz --targets=linux-x64,linux-arm64,darwin-x64,darwin-arm64,win32-x64
       # oclif stamps a commit sha into each tarball name; the Homebrew formula
       # needs a URL it can build from the version alone.
       - name: Normalise tarball names
