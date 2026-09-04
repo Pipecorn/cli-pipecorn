@@ -2,9 +2,29 @@ class Pipecorn < Formula
   desc "Command-line interface for Pipecorn (B2B sales intelligence)"
   homepage "https://github.com/pipecorn/cli-pipecorn"
   version "{{VERSION}}"
-  url "https://github.com/pipecorn/cli-pipecorn/releases/download/v{{VERSION}}/pipecorn-v{{VERSION}}-{{TARGET}}.tar.gz"
-  sha256 "{{SHA256}}"
   license "MIT"
+
+  on_macos do
+    on_arm do
+      url "https://github.com/pipecorn/cli-pipecorn/releases/download/v{{VERSION}}/pipecorn-v{{VERSION}}-darwin-arm64.tar.gz"
+      sha256 "{{SHA256_DARWIN_ARM64}}"
+    end
+    on_intel do
+      url "https://github.com/pipecorn/cli-pipecorn/releases/download/v{{VERSION}}/pipecorn-v{{VERSION}}-darwin-x64.tar.gz"
+      sha256 "{{SHA256_DARWIN_X64}}"
+    end
+  end
+
+  on_linux do
+    on_arm do
+      url "https://github.com/pipecorn/cli-pipecorn/releases/download/v{{VERSION}}/pipecorn-v{{VERSION}}-linux-arm64.tar.gz"
+      sha256 "{{SHA256_LINUX_ARM64}}"
+    end
+    on_intel do
+      url "https://github.com/pipecorn/cli-pipecorn/releases/download/v{{VERSION}}/pipecorn-v{{VERSION}}-linux-x64.tar.gz"
+      sha256 "{{SHA256_LINUX_X64}}"
+    end
+  end
 
   def install
     libexec.install Dir["*"]

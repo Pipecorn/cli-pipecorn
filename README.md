@@ -15,7 +15,8 @@ npx @pipecorn/cli --help
 npm install -g @pipecorn/cli
 
 # Homebrew
-brew install pipecorn/pipecorn/pipecorn
+brew tap pipecorn/tap
+brew install pipecorn
 ```
 
 ## Authenticate
