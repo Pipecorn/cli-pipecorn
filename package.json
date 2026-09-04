@@ -27,7 +27,8 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "prepack": "npm run build && oclif manifest",
+    "prepack": "npm run build && oclif manifest && npm run docs",
+    "docs": "oclif readme",
     "postpack": "rm -f oclif.manifest.json",
     "dev": "tsx bin/run.ts",
     "lint": "eslint src test",
