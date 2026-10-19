@@ -69,7 +69,11 @@ Every command and flag is listed in the README's Commands section; `pipecorn
 - `.claude/settings.json`, `.cursor/rules/`, `.windsurf/rules/`,
   `.github/copilot-instructions.md` — per-tool configs. The rule files repeat
   only the rules above that must never break and point back here; change them
-  with this file.
+  with this file. `.gemini/settings.json` and `.aider.conf.yml` load this file
+  directly. Codex, Kiro, Cline, Junie, Amp, Jules and Zed read it on their own.
+- `.claude-plugin/` — the same plugin packaged for Claude Code, with a
+  marketplace so `/plugin install pipecorn --marketplace Pipecorn/cli-pipecorn`
+  works. Keep its `version` and `description` in step with `plugin.json`.
 
 ## Working on the code
 
