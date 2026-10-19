@@ -14,8 +14,8 @@ export default class Login extends PipecornCommand {
     "Save a Pipecorn API key locally after validating it against the API.";
 
   static override examples = [
-    "$ pipecorn login --api-key pk_live_…",
-    "$ PIPECORN_API_KEY=pk_live_… pipecorn login",
+    "$ pipecorn login --api-key YOUR_API_KEY",
+    "$ PIPECORN_API_KEY=YOUR_API_KEY pipecorn login",
   ];
 
   static override args = {
