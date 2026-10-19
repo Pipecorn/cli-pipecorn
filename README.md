@@ -1,5 +1,7 @@
 # @pipecorn/cli
 
+📖 Full documentation: [Pipecorn API docs](https://docs.pipecorn.com) · [Developers](https://pipecorn.com/developers)
+
 `pipecorn` — command-line interface for [Pipecorn](https://pipecorn.com),
 the B2B sales-intelligence platform. Search leads and accounts, enrich
 contacts in bulk from CSV, manage lists, and stream buying-intent signals
