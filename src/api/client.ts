@@ -4,6 +4,7 @@ import {
   PlanLimitError,
   PipecornError,
   RateLimitError,
+  WorkspaceLimitError,
 } from "./errors.js";
 
 export const DEFAULT_BASE_URL = "https://app.pipecorn.com/api/v2";
@@ -95,6 +96,10 @@ function buildError(
 ): PipecornError {
   const message = extractMessage(body) ?? `HTTP ${status}`;
 
+  if (status === 402) return new CreditError(message, body, 402);
+  if (status === 403 && extractCode(body) === "workspace_limit_exceeded") {
+    return new WorkspaceLimitError(message, body);
+  }
   if (status === 401 || status === 403) return new AuthError(body);
 
   if (status === 429) {
@@ -113,6 +118,12 @@ function buildError(
   }
 
   return new PipecornError(`Pipecorn API error ${status}: ${message}`, status, body);
+}
+
+function extractCode(body: unknown): string | undefined {
+  if (typeof body !== "object" || body === null) return undefined;
+  const code = (body as Record<string, unknown>).code;
+  return typeof code === "string" ? code : undefined;
 }
 
 function extractMessage(body: unknown): string | undefined {

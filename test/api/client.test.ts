@@ -8,6 +8,8 @@ import {
   PlanLimitError,
   PipecornError,
   RateLimitError,
+  WorkspaceLimitError,
+  exitCodeFor,
 } from "../../src/api/errors.js";
 
 const BASE = "https://example.test/api/v2";
@@ -30,6 +32,22 @@ const server = setupServer(
     HttpResponse.json(
       { error: "Search exceeds your monthly import limits" },
       { status: 422 },
+    ),
+  ),
+  http.post(`${BASE}/contacts/single_enrich`, async () =>
+    HttpResponse.json(
+      {
+        error: "Not enough enrichment credits left",
+        code: "insufficient_credits",
+        top_up_url: "https://app.pipecorn.com/settings/subscriptions/credits",
+      },
+      { status: 402 },
+    ),
+  ),
+  http.post(`${BASE}/accounts/company_stack`, async () =>
+    HttpResponse.json(
+      { error: "Workspace weekly credit limit reached", code: "workspace_limit_exceeded" },
+      { status: 403 },
     ),
   ),
   http.get(`${BASE}/credits`, () =>
@@ -64,6 +82,30 @@ describe("PipecornClient", () => {
   it("throws PlanLimitError when message mentions import limits", async () => {
     const c = new PipecornClient({ apiKey: "good", baseUrl: BASE });
     await expect(c.post("/accounts/search", {})).rejects.toBeInstanceOf(PlanLimitError);
+  });
+
+  it("throws CreditError on 402", async () => {
+    const c = new PipecornClient({ apiKey: "good", baseUrl: BASE });
+    await expect(c.post("/contacts/single_enrich", {})).rejects.toBeInstanceOf(CreditError);
+  });
+
+  it("exits 5 on 402", async () => {
+    const c = new PipecornClient({ apiKey: "good", baseUrl: BASE });
+    const err = await c.post("/contacts/single_enrich", {}).catch((e: unknown) => e);
+    expect(exitCodeFor(err)).toBe(5);
+  });
+
+  it("throws WorkspaceLimitError on a 403 workspace_limit_exceeded", async () => {
+    const c = new PipecornClient({ apiKey: "good", baseUrl: BASE });
+    await expect(c.post("/accounts/company_stack", {})).rejects.toBeInstanceOf(
+      WorkspaceLimitError,
+    );
+  });
+
+  it("exits 5 on a 403 workspace_limit_exceeded, not 3", async () => {
+    const c = new PipecornClient({ apiKey: "good", baseUrl: BASE });
+    const err = await c.post("/accounts/company_stack", {}).catch((e: unknown) => e);
+    expect(exitCodeFor(err)).toBe(5);
   });
 
   it("parses Retry-After on 429", async () => {
