@@ -79,6 +79,16 @@ stderr; the exit code identifies the failure class:
 | 4 | rate limit |
 | 5 | credits or plan limit |
 
+## AI agents
+
+This repo is also the **Pipecorn Agent Plugin** ([agent-plugins.org](https://agent-plugins.org/specification)): [`plugin.json`](plugin.json) bundles the hosted Pipecorn MCP server ([`mcp.json`](mcp.json), `https://mcp.pipecorn.com/mcp`, listed in the official MCP registry as [`com.pipecorn/mcp`](https://registry.modelcontextprotocol.io/v0/servers/com.pipecorn%2Fmcp/versions/latest)) and the Pipecorn agent skill ([`skills/pipecorn/SKILL.md`](skills/pipecorn/SKILL.md)). Coding agents working on the CLI read [`AGENTS.md`](AGENTS.md).
+
+In Claude Code, install the plugin from this repo's marketplace (Claude Code 2.1.275 or later):
+
+```
+/plugin install pipecorn --marketplace Pipecorn/cli-pipecorn
+```
+
 ## Configuration
 
 ```sh

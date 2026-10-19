@@ -1,0 +1,15 @@
+{
+  "name": "pipecorn",
+  "description": "Pipecorn's official Claude Code plugin: the Pipecorn MCP server and agent skill.",
+  "owner": {
+    "name": "Pipecorn",
+    "url": "https://pipecorn.com"
+  },
+  "plugins": [
+    {
+      "name": "pipecorn",
+      "source": "./",
+      "description": "The Pipecorn MCP server and agent skill: find companies and people, enrich work emails and mobiles, read buying signals."
+    }
+  ]
+}

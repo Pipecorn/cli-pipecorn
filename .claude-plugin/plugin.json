@@ -1,0 +1,17 @@
+{
+  "name": "pipecorn",
+  "version": "0.1.0",
+  "description": "Find B2B companies and people, enrich verified work emails and mobile numbers, and read buying signals with Pipecorn. Bundles the Pipecorn MCP server and the Pipecorn agent skill.",
+  "author": { "name": "Pipecorn", "url": "https://pipecorn.com" },
+  "homepage": "https://pipecorn.com",
+  "repository": "https://github.com/Pipecorn/cli-pipecorn",
+  "license": "MIT",
+  "keywords": ["b2b", "sales-intelligence", "lead-generation", "enrichment", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": {
+    "pipecorn": {
+      "type": "http",
+      "url": "https://mcp.pipecorn.com/mcp"
+    }
+  }
+}
