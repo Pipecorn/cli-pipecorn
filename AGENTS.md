@@ -66,6 +66,10 @@ Every command and flag is listed in the README's Commands section; `pipecorn
 - `homebrew/` and `scripts/render-homebrew-cask.sh` — the Homebrew cask,
   rendered on release.
 - `plugin.json`, `mcp.json`, `skills/` — the Agent Plugin (see below).
+- `.claude/settings.json`, `.cursor/rules/`, `.windsurf/rules/`,
+  `.github/copilot-instructions.md` — per-tool configs. The rule files repeat
+  only the rules above that must never break and point back here; change them
+  with this file.
 
 ## Working on the code
 
