@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/Pipecorn/cli-pipecorn.git"
   },
-  "homepage": "https://github.com/Pipecorn/cli-pipecorn#readme",
+  "homepage": "https://docs.pipecorn.com/cli/overview",
   "bugs": {
     "url": "https://github.com/Pipecorn/cli-pipecorn/issues"
   },
