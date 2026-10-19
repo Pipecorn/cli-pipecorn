@@ -38,13 +38,24 @@ export class RateLimitError extends PipecornError {
 }
 
 export class CreditError extends PipecornError {
-  constructor(message: string, body: unknown) {
+  constructor(message: string, body: unknown, status = 422) {
     super(
       `${message}\nRecharge credits at https://app.pipecorn.com/settings/subscriptions/credits`,
-      422,
+      status,
       body,
     );
     this.name = "CreditError";
+  }
+}
+
+export class WorkspaceLimitError extends PipecornError {
+  constructor(message: string, body: unknown) {
+    super(
+      `${message}\nA workspace admin can raise your weekly credit allowance; buying credits does not lift it.`,
+      403,
+      body,
+    );
+    this.name = "WorkspaceLimitError";
   }
 }
 
@@ -62,7 +73,12 @@ export class PlanLimitError extends PipecornError {
 export function exitCodeFor(err: unknown): number {
   if (err instanceof AuthError) return 3;
   if (err instanceof RateLimitError) return 4;
-  if (err instanceof CreditError || err instanceof PlanLimitError) return 5;
+  if (
+    err instanceof CreditError ||
+    err instanceof PlanLimitError ||
+    err instanceof WorkspaceLimitError
+  )
+    return 5;
   if (err instanceof PipecornError) return 1;
   return 2;
 }
