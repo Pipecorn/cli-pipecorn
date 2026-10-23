@@ -24,19 +24,116 @@ export const SENIORITY_LEVELS = [
   "320",
 ] as const;
 
-export const searchAccountsSchema = z.object({
-  name: z.string().optional(),
-  keyword: z.string().optional(),
-  included_industries: z.array(z.string()).optional(),
-  excluded_industries: z.array(z.string()).optional(),
-  included_locations: z.array(z.string()).optional(),
-  excluded_locations: z.array(z.string()).optional(),
-  company_size: z.array(z.enum(COMPANY_SIZES)).optional(),
-  min_revenue: z.number().optional(),
-  max_revenue: z.number().optional(),
-  revenue_currency: z.string().optional(),
-  limit: z.number().int().positive().optional(),
+export const COMPANY_TYPES = [
+  "Public Company",
+  "Privately Held",
+  "Non Profit",
+  "Educational Institution",
+  "Partnership",
+  "Self-Employed",
+  "Self Owned",
+  "Government Agency",
+] as const;
+
+export const DEPARTMENTS = [
+  "Accounting",
+  "Administrative",
+  "Arts and Design",
+  "Business Development",
+  "Community and Social Services",
+  "Consulting",
+  "Customer Success and Support",
+  "Education",
+  "Engineering",
+  "Entrepreneurship",
+  "Finance",
+  "Healthcare Services",
+  "Human Resources",
+  "Information Technology",
+  "Legal",
+  "Marketing",
+  "Media and Communication",
+  "Military and Protective Services",
+  "Operations",
+  "Product Management",
+  "Program and Project Management",
+  "Purchasing",
+  "Quality Assurance",
+  "Real Estate",
+  "Research",
+  "Sales",
+] as const;
+
+const departmentRuleSchema = z.object({
+  department: z.enum(DEPARTMENTS),
+  min: z.number().optional(),
+  max: z.number().optional(),
 });
+
+/** Parses a `<department>:<min>:<max>` rule; a blank bound is open (`Sales:10:`). */
+export function parseDepartmentRule(rule: string): unknown {
+  const [department, min, max] = rule.split(":").map((part) => part.trim());
+  const bound = (value: string | undefined) => (value ? Number(value) : undefined);
+  return { department, min: bound(min), max: bound(max) };
+}
+
+const databaseFilters = {
+  company_types: z.array(z.enum(COMPANY_TYPES)).optional(),
+  business_models: z.array(z.enum(["saas"])).optional(),
+  min_headcount: z.number().int().nonnegative().optional(),
+  max_headcount: z.number().int().nonnegative().optional(),
+  min_year_founded: z.number().int().positive().optional(),
+  max_year_founded: z.number().int().positive().optional(),
+  last_funding_within_days: z.number().int().positive().optional(),
+  min_last_funding_amount: z.number().nonnegative().optional(),
+  max_last_funding_amount: z.number().nonnegative().optional(),
+  headcount_growth_period: z.enum(["mom", "qoq", "six_months", "yoy"]).optional(),
+  min_headcount_growth: z.number().optional(),
+  max_headcount_growth: z.number().optional(),
+  department_headcounts: z.array(departmentRuleSchema).optional(),
+  department_headcount_match: z.enum(["all", "any"]).optional(),
+  department_growths: z.array(departmentRuleSchema).optional(),
+  department_growth_match: z.enum(["all", "any"]).optional(),
+  min_monthly_visitors: z.number().int().nonnegative().optional(),
+  max_monthly_visitors: z.number().int().nonnegative().optional(),
+  monthly_visitor_growth_period: z.enum(["mom", "qoq"]).optional(),
+  min_monthly_visitor_growth: z.number().optional(),
+  max_monthly_visitor_growth: z.number().optional(),
+  included_company_lists: z.array(z.string()).optional(),
+  excluded_company_lists: z.array(z.string()).optional(),
+  competitors_of: z.array(z.string()).max(10).optional(),
+};
+
+const DATABASE_FILTER_KEYS = Object.keys(databaseFilters) as (keyof typeof databaseFilters)[];
+
+export const searchAccountsSchema = z
+  .object({
+    name: z.string().optional(),
+    live: z.boolean().optional(),
+    webhook_url: z.string().url().optional(),
+    keyword: z.string().optional(),
+    included_industries: z.array(z.string()).optional(),
+    excluded_industries: z.array(z.string()).optional(),
+    included_locations: z.array(z.string()).optional(),
+    excluded_locations: z.array(z.string()).optional(),
+    company_size: z.array(z.enum(COMPANY_SIZES)).optional(),
+    min_revenue: z.number().optional(),
+    max_revenue: z.number().optional(),
+    revenue_currency: z.string().optional(),
+    limit: z.number().int().positive().optional(),
+    ...databaseFilters,
+  })
+  .superRefine((search, ctx) => {
+    if (search.live === false) return;
+    for (const key of DATABASE_FILTER_KEYS) {
+      if (search[key] === undefined) continue;
+      ctx.addIssue({
+        code: "custom",
+        path: [key],
+        message: "only works on the Pipecorn database: add --no-live",
+      });
+    }
+  });
 
 export const enrichAccountSchema = z
   .object({
