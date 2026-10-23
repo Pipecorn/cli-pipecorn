@@ -172,7 +172,7 @@ EXAMPLES
   $ pipecorn accounts enrich --linkedin-url https://linkedin.com/company/stripe
 ```
 
-_See code: [src/commands/accounts/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/accounts/enrich.ts)_
+_See code: [src/commands/accounts/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/accounts/enrich.ts)_
 
 ## `pipecorn accounts search`
 
@@ -181,9 +181,17 @@ Start a company search. Returns a job ID — poll with `pipecorn jobs status <id
 ```
 USAGE
   $ pipecorn accounts search [--api-key <value>] [--format json|csv|table] [--quiet] [-o <value>] [--name <value>]
-    [--keyword <value>] [--included-industries <value>...] [--excluded-industries <value>...] [--included-locations
-    <value>...] [--excluded-locations <value>...] [--company-size <value>...] [--min-revenue <value>] [--max-revenue
-    <value>] [--revenue-currency <value>] [--limit <value>] [--preview]
+    [--live] [--webhook-url <value>] [--keyword <value>] [--included-industries <value>...] [--excluded-industries
+    <value>...] [--included-locations <value>...] [--excluded-locations <value>...] [--company-size <value>...]
+    [--min-revenue <value>] [--max-revenue <value>] [--revenue-currency <value>] [--company-types <value>...]
+    [--business-models saas...] [--min-headcount <value>] [--max-headcount <value>] [--min-year-founded <value>]
+    [--max-year-founded <value>] [--last-funding-within-days <value>] [--min-last-funding-amount <value>]
+    [--max-last-funding-amount <value>] [--headcount-growth-period mom|qoq|six_months|yoy] [--min-headcount-growth
+    <value>] [--max-headcount-growth <value>] [--department-headcount <value>...] [--department-headcount-match all|any]
+    [--department-growth <value>...] [--department-growth-match all|any] [--min-monthly-visitors <value>]
+    [--max-monthly-visitors <value>] [--monthly-visitor-growth-period mom|qoq] [--min-monthly-visitor-growth <value>]
+    [--max-monthly-visitor-growth <value>] [--included-company-lists <value>...] [--excluded-company-lists <value>...]
+    [--competitors-of <value>...] [--limit <value>] [--preview]
 
 FLAGS
   --company-size=<value>...
@@ -193,11 +201,13 @@ FLAGS
   --included-locations=<value>...
   --keyword=<value>                 Boolean keyword query
   --limit=<value>                   Max companies (≤ 1000)
-  --max-revenue=<value>
-  --min-revenue=<value>
+  --[no-]live                       Search LinkedIn Sales Navigator (default). --no-live searches the Pipecorn database
+  --max-revenue=<value>             Maximum annual revenue, in millions
+  --min-revenue=<value>             Minimum annual revenue, in millions
   --name=<value>                    Display name for the saved search
   --preview                         Synchronous preview (count + small sample) instead of async search
   --revenue-currency=<value>
+  --webhook-url=<value>             URL that receives the results (required unless --preview)
 
 GLOBAL FLAGS
   -o, --output=<value>   Write output to a file instead of stdout
@@ -206,16 +216,51 @@ GLOBAL FLAGS
                          <options: json|csv|table>
       --quiet            Suppress spinners and progress output
 
+PIPECORN DATABASE (--NO-LIVE) FLAGS
+  --business-models=<option>...             <options: saas>
+  --company-types=<value>...
+  --competitors-of=<value>...               LinkedIn company IDs (up to 10)
+  --department-growth=<value>...            <department>:<min>:<max> growth in percent (e.g. 'Engineering:20:')
+  --department-growth-match=<option>        <options: all|any>
+  --department-headcount=<value>...         <department>:<min>:<max>, a blank bound is open (e.g. 'Sales:10:')
+  --department-headcount-match=<option>     <options: all|any>
+  --excluded-company-lists=<value>...       List IDs
+  --headcount-growth-period=<option>        <options: mom|qoq|six_months|yoy>
+  --included-company-lists=<value>...       List IDs
+  --last-funding-within-days=<value>        Last round raised within this many days
+  --max-headcount=<value>
+  --max-headcount-growth=<value>
+  --max-last-funding-amount=<value>
+  --max-monthly-visitor-growth=<value>
+  --max-monthly-visitors=<value>
+  --max-year-founded=<value>
+  --min-headcount=<value>                   Exact headcount range, replaces --company-size
+  --min-headcount-growth=<value>            Company headcount growth, in percent
+  --min-last-funding-amount=<value>         Last round size, in USD millions
+  --min-monthly-visitor-growth=<value>      Website traffic growth, in percent
+  --min-monthly-visitors=<value>
+  --min-year-founded=<value>
+  --monthly-visitor-growth-period=<option>  <options: mom|qoq>
+
 DESCRIPTION
   Start a company search. Returns a job ID — poll with `pipecorn jobs status <id>`.
 
+  Runs on LinkedIn Sales Navigator by default. Pass --no-live to search the Pipecorn database instead, which needs no
+  Sales Navigator account and takes every filter of the app's company search. Departments: Accounting, Administrative,
+  Arts and Design, Business Development, Community and Social Services, Consulting, Customer Success and Support,
+  Education, Engineering, Entrepreneurship, Finance, Healthcare Services, Human Resources, Information Technology,
+  Legal, Marketing, Media and Communication, Military and Protective Services, Operations, Product Management, Program
+  and Project Management, Purchasing, Quality Assurance, Real Estate, Research, Sales.
+
 EXAMPLES
-  $ pipecorn accounts search --keyword '"sales agency"' --company-size 11-50 --limit 100
+  $ pipecorn accounts search --keyword '"sales agency"' --company-size 11-50 --limit 100 --webhook-url https://my.app/hook
 
   $ pipecorn accounts search --preview --keyword 'fintech'   # synchronous count + sample
+
+  $ pipecorn accounts search --preview --no-live --company-types 'Privately Held' --min-year-founded 2018 --last-funding-within-days 365 --department-growth 'Sales:20:'
 ```
 
-_See code: [src/commands/accounts/search.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/accounts/search.ts)_
+_See code: [src/commands/accounts/search.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/accounts/search.ts)_
 
 ## `pipecorn accounts stack`
 
@@ -242,7 +287,7 @@ DESCRIPTION
   Look up a company's tech stack.
 ```
 
-_See code: [src/commands/accounts/stack.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/accounts/stack.ts)_
+_See code: [src/commands/accounts/stack.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/accounts/stack.ts)_
 
 ## `pipecorn autocomplete [SHELL]`
 
@@ -290,7 +335,7 @@ DESCRIPTION
   Read a CLI configuration value.
 ```
 
-_See code: [src/commands/config/get.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/config/get.ts)_
+_See code: [src/commands/config/get.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/config/get.ts)_
 
 ## `pipecorn config list`
 
@@ -304,7 +349,7 @@ DESCRIPTION
   List all CLI configuration values.
 ```
 
-_See code: [src/commands/config/list.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/config/list.ts)_
+_See code: [src/commands/config/list.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/config/list.ts)_
 
 ## `pipecorn config set KEY VALUE`
 
@@ -322,7 +367,7 @@ DESCRIPTION
   Set a CLI configuration value.
 ```
 
-_See code: [src/commands/config/set.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/config/set.ts)_
+_See code: [src/commands/config/set.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/config/set.ts)_
 
 ## `pipecorn contacts enrich`
 
@@ -364,7 +409,7 @@ EXAMPLES
   $ pipecorn contacts enrich --batch contacts.csv --enrichment phone --dry-run
 ```
 
-_See code: [src/commands/contacts/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/contacts/enrich.ts)_
+_See code: [src/commands/contacts/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/contacts/enrich.ts)_
 
 ## `pipecorn contacts get ID`
 
@@ -388,7 +433,7 @@ DESCRIPTION
   Fetch a previously-enriched contact by enrichment id.
 ```
 
-_See code: [src/commands/contacts/get.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/contacts/get.ts)_
+_See code: [src/commands/contacts/get.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/contacts/get.ts)_
 
 ## `pipecorn credits`
 
@@ -409,7 +454,7 @@ DESCRIPTION
   Show the current credit balance for the authenticated account.
 ```
 
-_See code: [src/commands/credits.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/credits.ts)_
+_See code: [src/commands/credits.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/credits.ts)_
 
 ## `pipecorn help [COMMAND]`
 
@@ -450,7 +495,7 @@ DESCRIPTION
   List recent searches. Each search corresponds to an async lead/account job.
 ```
 
-_See code: [src/commands/jobs/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/jobs/index.ts)_
+_See code: [src/commands/jobs/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/jobs/index.ts)_
 
 ## `pipecorn jobs delete ID`
 
@@ -474,7 +519,7 @@ DESCRIPTION
   Delete a saved search.
 ```
 
-_See code: [src/commands/jobs/delete.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/jobs/delete.ts)_
+_See code: [src/commands/jobs/delete.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/jobs/delete.ts)_
 
 ## `pipecorn jobs status ID`
 
@@ -504,7 +549,7 @@ DESCRIPTION
   Show the status of a search (job). Use --watch to poll until it finishes.
 ```
 
-_See code: [src/commands/jobs/status.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/jobs/status.ts)_
+_See code: [src/commands/jobs/status.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/jobs/status.ts)_
 
 ## `pipecorn leads enrich`
 
@@ -529,7 +574,7 @@ DESCRIPTION
   Enrich a single LinkedIn profile.
 ```
 
-_See code: [src/commands/leads/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/leads/enrich.ts)_
+_See code: [src/commands/leads/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/leads/enrich.ts)_
 
 ## `pipecorn leads search`
 
@@ -584,7 +629,7 @@ EXAMPLES
   $ pipecorn leads search --preview --keyword 'GTM' --company-size 51-200
 ```
 
-_See code: [src/commands/leads/search.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/leads/search.ts)_
+_See code: [src/commands/leads/search.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/leads/search.ts)_
 
 ## `pipecorn lists`
 
@@ -605,7 +650,7 @@ DESCRIPTION
   List all account and lead lists.
 ```
 
-_See code: [src/commands/lists/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/lists/index.ts)_
+_See code: [src/commands/lists/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/lists/index.ts)_
 
 ## `pipecorn lists create NAME`
 
@@ -634,7 +679,7 @@ DESCRIPTION
   Create an empty list.
 ```
 
-_See code: [src/commands/lists/create.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/lists/create.ts)_
+_See code: [src/commands/lists/create.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/lists/create.ts)_
 
 ## `pipecorn lists export ID`
 
@@ -660,7 +705,7 @@ DESCRIPTION
   Export a list to CSV. Writes to stdout by default; use -o to write a file.
 ```
 
-_See code: [src/commands/lists/export.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/lists/export.ts)_
+_See code: [src/commands/lists/export.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/lists/export.ts)_
 
 ## `pipecorn lists show ID`
 
@@ -684,7 +729,7 @@ DESCRIPTION
   Show a single list and its members.
 ```
 
-_See code: [src/commands/lists/show.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/lists/show.ts)_
+_See code: [src/commands/lists/show.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/lists/show.ts)_
 
 ## `pipecorn lists update ID`
 
@@ -711,7 +756,7 @@ DESCRIPTION
   Rename a list.
 ```
 
-_See code: [src/commands/lists/update.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/lists/update.ts)_
+_See code: [src/commands/lists/update.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/lists/update.ts)_
 
 ## `pipecorn locations QUERY`
 
@@ -735,7 +780,7 @@ DESCRIPTION
   Resolve a free-text location to LinkedIn geoRegion IDs (use with --included-locations).
 ```
 
-_See code: [src/commands/locations.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/locations.ts)_
+_See code: [src/commands/locations.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/locations.ts)_
 
 ## `pipecorn login [KEY]`
 
@@ -768,7 +813,7 @@ EXAMPLES
   $ PIPECORN_API_KEY=YOUR_API_KEY pipecorn login
 ```
 
-_See code: [src/commands/login.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/login.ts)_
 
 ## `pipecorn logout`
 
@@ -789,7 +834,7 @@ DESCRIPTION
   Remove saved Pipecorn credentials from this machine.
 ```
 
-_See code: [src/commands/logout.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/logout.ts)_
+_See code: [src/commands/logout.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/logout.ts)_
 
 ## `pipecorn personas`
 
@@ -810,7 +855,7 @@ DESCRIPTION
   List ICP personas.
 ```
 
-_See code: [src/commands/personas/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/personas/index.ts)_
+_See code: [src/commands/personas/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/personas/index.ts)_
 
 ## `pipecorn personas show UUID`
 
@@ -834,7 +879,7 @@ DESCRIPTION
   Show a single persona.
 ```
 
-_See code: [src/commands/personas/show.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/personas/show.ts)_
+_See code: [src/commands/personas/show.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/personas/show.ts)_
 
 ## `pipecorn signals growth`
 
@@ -866,7 +911,7 @@ DESCRIPTION
   Find companies with notable headcount growth. Streams to --webhook-url.
 ```
 
-_See code: [src/commands/signals/growth.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/signals/growth.ts)_
+_See code: [src/commands/signals/growth.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/signals/growth.ts)_
 
 ## `pipecorn signals hiring`
 
@@ -905,7 +950,7 @@ DESCRIPTION
   Find companies actively hiring. Results stream to --webhook-url.
 ```
 
-_See code: [src/commands/signals/hiring.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/signals/hiring.ts)_
+_See code: [src/commands/signals/hiring.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/signals/hiring.ts)_
 
 ## `pipecorn signals job-changes`
 
@@ -934,7 +979,7 @@ ALIASES
   $ pipecorn signals track-job-changes
 ```
 
-_See code: [src/commands/signals/job-changes.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/signals/job-changes.ts)_
+_See code: [src/commands/signals/job-changes.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/signals/job-changes.ts)_
 
 ## `pipecorn signals track-job-changes`
 
@@ -982,7 +1027,7 @@ DESCRIPTION
   Show the authenticated account and credit balance.
 ```
 
-_See code: [src/commands/whoami.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.1.5/src/commands/whoami.ts)_
+_See code: [src/commands/whoami.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/whoami.ts)_
 <!-- commandsstop -->
 
 ## Development
