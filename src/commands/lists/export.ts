@@ -6,7 +6,7 @@ import { PipecornCommand } from "../../lib/base-command.js";
 
 export default class ListsExport extends PipecornCommand {
   static override description =
-    "Export a list to CSV. Writes to stdout by default; use -o to write a file.";
+    "Export every member of a list to CSV, fetching all its pages. Writes to stdout by default; use -o to write a file.";
 
   static override args = {
     id: Args.string({ description: "List ID", required: true }),
@@ -20,8 +20,7 @@ export default class ListsExport extends PipecornCommand {
   async run(): Promise<void> {
     const { args, flags } = await this.parse(ListsExport);
     const client = await this.client(flags["api-key"]);
-    const list = await Lists.get(client, args.id);
-    const rows = extractRows(list);
+    const rows = await collectListRows((cursor) => Lists.get(client, args.id, { cursor }));
     const csv =
       rows.length === 0
         ? ""
@@ -33,6 +32,26 @@ export default class ListsExport extends PipecornCommand {
       process.stdout.write(csv);
     }
   }
+}
+
+/** Every row of a list, following pagination.next_cursor until the last page. */
+export async function collectListRows(
+  fetchPage: (cursor?: string) => Promise<unknown>,
+): Promise<Record<string, unknown>[]> {
+  const rows: Record<string, unknown>[] = [];
+  let cursor: string | undefined;
+  do {
+    const page = await fetchPage(cursor);
+    rows.push(...extractRows(page));
+    cursor = nextCursor(page);
+  } while (cursor);
+  return rows;
+}
+
+function nextCursor(page: unknown): string | undefined {
+  const pagination = (page as { pagination?: { has_more?: boolean; next_cursor?: string } } | null)
+    ?.pagination;
+  return pagination?.has_more ? pagination.next_cursor : undefined;
 }
 
 function extractRows(list: unknown): Record<string, unknown>[] {

@@ -200,7 +200,8 @@ FLAGS
   --included-industries=<value>...
   --included-locations=<value>...
   --keyword=<value>                 Boolean keyword query
-  --limit=<value>                   Max companies (≤ 1000)
+  --limit=<value>                   Max companies. Up to your company import quota with --no-live, at most 1000 on Sales
+                                    Navigator
   --[no-]live                       Search LinkedIn Sales Navigator (default). --no-live searches the Pipecorn database
   --max-revenue=<value>             Maximum annual revenue, in millions
   --min-revenue=<value>             Minimum annual revenue, in millions
@@ -683,7 +684,7 @@ _See code: [src/commands/lists/create.ts](https://github.com/Pipecorn/cli-pipeco
 
 ## `pipecorn lists export ID`
 
-Export a list to CSV. Writes to stdout by default; use -o to write a file.
+Export every member of a list to CSV, fetching all its pages. Writes to stdout by default; use -o to write a file.
 
 ```
 USAGE
@@ -702,21 +703,26 @@ GLOBAL FLAGS
   --quiet            Suppress spinners and progress output
 
 DESCRIPTION
-  Export a list to CSV. Writes to stdout by default; use -o to write a file.
+  Export every member of a list to CSV, fetching all its pages. Writes to stdout by default; use -o to write a file.
 ```
 
 _See code: [src/commands/lists/export.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/lists/export.ts)_
 
 ## `pipecorn lists show ID`
 
-Show a single list and its members.
+Show a single list and one page of its members (up to 1000). Pass --cursor with pagination.next_cursor for the next page.
 
 ```
 USAGE
-  $ pipecorn lists show ID [--api-key <value>] [--format json|csv|table] [--quiet] [-o <value>]
+  $ pipecorn lists show ID [--api-key <value>] [--format json|csv|table] [--quiet] [-o <value>] [--cursor
+    <value>] [--per-page <value>]
 
 ARGUMENTS
   ID  List ID
+
+FLAGS
+  --cursor=<value>    pagination.next_cursor from the previous page
+  --per-page=<value>  Members per page (1-1000, default 1000)
 
 GLOBAL FLAGS
   -o, --output=<value>   Write output to a file instead of stdout
@@ -726,7 +732,8 @@ GLOBAL FLAGS
       --quiet            Suppress spinners and progress output
 
 DESCRIPTION
-  Show a single list and its members.
+  Show a single list and one page of its members (up to 1000). Pass --cursor with pagination.next_cursor for the next
+  page.
 ```
 
 _See code: [src/commands/lists/show.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.2.0/src/commands/lists/show.ts)_

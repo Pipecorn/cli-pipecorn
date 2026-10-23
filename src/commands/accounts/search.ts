@@ -99,7 +99,10 @@ Runs on LinkedIn Sales Navigator by default. Pass --no-live to search the Pipeco
       description: "LinkedIn company IDs (up to 10)",
       ...DATABASE,
     }),
-    limit: Flags.integer({ description: "Max companies (≤ 1000)" }),
+    limit: Flags.integer({
+      description:
+        "Max companies. Up to your company import quota with --no-live, at most 1000 on Sales Navigator",
+    }),
     preview: Flags.boolean({
       description: "Synchronous preview (count + small sample) instead of async search",
     }),

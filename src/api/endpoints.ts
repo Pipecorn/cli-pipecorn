@@ -31,6 +31,18 @@ export interface PipecornListItem {
   [key: string]: unknown;
 }
 
+export interface ListPageQuery {
+  cursor?: string;
+  perPage?: number;
+}
+
+function listPageQuery({ cursor, perPage }: ListPageQuery): string {
+  const query = new URLSearchParams();
+  if (cursor) query.set("cursor", cursor);
+  if (perPage) query.set("per_page", String(perPage));
+  return query.size > 0 ? `?${query.toString()}` : "";
+}
+
 export interface Persona {
   uuid?: string;
   id?: string;
@@ -112,8 +124,8 @@ export const Lists = {
   list: (c: PipecornClient) => c.get<PipecornListItem[]>("/lists"),
   create: (c: PipecornClient, body: unknown) =>
     c.post<PipecornListItem>("/lists", body),
-  get: (c: PipecornClient, id: string) =>
-    c.get<PipecornListItem>(`/lists/${encodeURIComponent(id)}`),
+  get: (c: PipecornClient, id: string, page: ListPageQuery = {}) =>
+    c.get<PipecornListItem>(`/lists/${encodeURIComponent(id)}${listPageQuery(page)}`),
   update: (c: PipecornClient, id: string, body: unknown) =>
     c.put<PipecornListItem>(`/lists/${encodeURIComponent(id)}`, body),
 };
