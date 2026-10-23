@@ -38,7 +38,7 @@ export default class ListsExport extends PipecornCommand {
 function extractRows(list: unknown): Record<string, unknown>[] {
   if (typeof list !== "object" || list === null) return [];
   const obj = list as Record<string, unknown>;
-  const candidates = [obj.items, obj.leads, obj.accounts, obj.members, obj.records];
+  const candidates = [obj.items, obj.companies, obj.leads, obj.accounts, obj.members, obj.records];
   for (const c of candidates) {
     if (Array.isArray(c)) return c.map((r) => flatten(r));
   }
