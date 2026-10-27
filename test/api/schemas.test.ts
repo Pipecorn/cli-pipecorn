@@ -80,30 +80,30 @@ describe("schemas", () => {
     ).toThrow(/--no-live/);
   });
 
-  it("accepts employee job title filters with live: false", () => {
+  it("accepts job title filters with live: false", () => {
     expect(
       searchAccountsSchema.parse({
         live: false,
-        employee_job_titles: ["Head of Sales"],
-        excluded_employee_job_titles: ["RevOps"],
+        with_job_titles: ["Head of Sales"],
+        without_job_titles: ["RevOps"],
       }),
     ).toMatchObject({
-      employee_job_titles: ["Head of Sales"],
-      excluded_employee_job_titles: ["RevOps"],
+      with_job_titles: ["Head of Sales"],
+      without_job_titles: ["RevOps"],
     });
   });
 
-  it("rejects employee job titles without live: false", () => {
+  it("rejects job titles without live: false", () => {
     expect(() =>
-      searchAccountsSchema.parse({ excluded_employee_job_titles: ["CTO"] }),
+      searchAccountsSchema.parse({ without_job_titles: ["CTO"] }),
     ).toThrow(/--no-live/);
   });
 
-  it("rejects more than 25 employee job titles", () => {
+  it("rejects more than 25 job titles", () => {
     expect(() =>
       searchAccountsSchema.parse({
         live: false,
-        employee_job_titles: Array.from({ length: 26 }, (_, i) => `Title ${String(i)}`),
+        with_job_titles: Array.from({ length: 26 }, (_, i) => `Title ${String(i)}`),
       }),
     ).toThrow();
   });

@@ -191,8 +191,8 @@ USAGE
     [--department-growth <value>...] [--department-growth-match all|any] [--min-monthly-visitors <value>]
     [--max-monthly-visitors <value>] [--monthly-visitor-growth-period mom|qoq] [--min-monthly-visitor-growth <value>]
     [--max-monthly-visitor-growth <value>] [--included-company-lists <value>...] [--excluded-company-lists <value>...]
-    [--competitors-of <value>...] [--employee-job-titles <value>...] [--excluded-employee-job-titles <value>...]
-    [--limit <value>] [--preview]
+    [--competitors-of <value>...] [--with-job-titles <value>...] [--without-job-titles <value>...] [--limit <value>]
+    [--preview]
 
 FLAGS
   --company-size=<value>...
@@ -218,32 +218,32 @@ GLOBAL FLAGS
       --quiet            Suppress spinners and progress output
 
 PIPECORN DATABASE (--NO-LIVE) FLAGS
-  --business-models=<option>...              <options: saas>
+  --business-models=<option>...             <options: saas>
   --company-types=<value>...
-  --competitors-of=<value>...                LinkedIn company IDs (up to 10)
-  --department-growth=<value>...             <department>:<min>:<max> growth in percent (e.g. 'Engineering:20:')
-  --department-growth-match=<option>         <options: all|any>
-  --department-headcount=<value>...          <department>:<min>:<max>, a blank bound is open (e.g. 'Sales:10:')
-  --department-headcount-match=<option>      <options: all|any>
-  --employee-job-titles=<value>...           Keep companies where someone holds one of these titles (up to 25)
-  --excluded-company-lists=<value>...        List IDs
-  --excluded-employee-job-titles=<value>...  Drop companies where someone holds one of these titles (up to 25)
-  --headcount-growth-period=<option>         <options: mom|qoq|six_months|yoy>
-  --included-company-lists=<value>...        List IDs
-  --last-funding-within-days=<value>         Last round raised within this many days
+  --competitors-of=<value>...               LinkedIn company IDs (up to 10)
+  --department-growth=<value>...            <department>:<min>:<max> growth in percent (e.g. 'Engineering:20:')
+  --department-growth-match=<option>        <options: all|any>
+  --department-headcount=<value>...         <department>:<min>:<max>, a blank bound is open (e.g. 'Sales:10:')
+  --department-headcount-match=<option>     <options: all|any>
+  --excluded-company-lists=<value>...       List IDs
+  --headcount-growth-period=<option>        <options: mom|qoq|six_months|yoy>
+  --included-company-lists=<value>...       List IDs
+  --last-funding-within-days=<value>        Last round raised within this many days
   --max-headcount=<value>
   --max-headcount-growth=<value>
   --max-last-funding-amount=<value>
   --max-monthly-visitor-growth=<value>
   --max-monthly-visitors=<value>
   --max-year-founded=<value>
-  --min-headcount=<value>                    Exact headcount range, replaces --company-size
-  --min-headcount-growth=<value>             Company headcount growth, in percent
-  --min-last-funding-amount=<value>          Last round size, in USD millions
-  --min-monthly-visitor-growth=<value>       Website traffic growth, in percent
+  --min-headcount=<value>                   Exact headcount range, replaces --company-size
+  --min-headcount-growth=<value>            Company headcount growth, in percent
+  --min-last-funding-amount=<value>         Last round size, in USD millions
+  --min-monthly-visitor-growth=<value>      Website traffic growth, in percent
   --min-monthly-visitors=<value>
   --min-year-founded=<value>
-  --monthly-visitor-growth-period=<option>   <options: mom|qoq>
+  --monthly-visitor-growth-period=<option>  <options: mom|qoq>
+  --with-job-titles=<value>...              Companies where someone holds one of these titles (up to 25)
+  --without-job-titles=<value>...           Companies where no one holds any of these titles (up to 25)
 
 DESCRIPTION
   Start a company search. Returns a job ID — poll with `pipecorn jobs status <id>`.
@@ -262,7 +262,7 @@ EXAMPLES
 
   $ pipecorn accounts search --preview --no-live --company-types 'Privately Held' --min-year-founded 2018 --last-funding-within-days 365 --department-growth 'Sales:20:'
 
-  $ pipecorn accounts search --preview --no-live --business-models saas --employee-job-titles 'Head of Sales' --excluded-employee-job-titles RevOps
+  $ pipecorn accounts search --preview --no-live --business-models saas --with-job-titles 'Head of Sales' --without-job-titles RevOps
 ```
 
 _See code: [src/commands/accounts/search.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.3.0/src/commands/accounts/search.ts)_
