@@ -15,6 +15,7 @@ Runs on LinkedIn Sales Navigator by default. Pass --no-live to search the Pipeco
     "$ pipecorn accounts search --keyword '\"sales agency\"' --company-size 11-50 --limit 100 --webhook-url https://my.app/hook",
     "$ pipecorn accounts search --preview --keyword 'fintech'   # synchronous count + sample",
     "$ pipecorn accounts search --preview --no-live --company-types 'Privately Held' --min-year-founded 2018 --last-funding-within-days 365 --department-growth 'Sales:20:'",
+    "$ pipecorn accounts search --preview --no-live --business-models saas --with-job-titles 'Head of Sales' --without-job-titles RevOps",
   ];
 
   static override flags = {
@@ -99,6 +100,16 @@ Runs on LinkedIn Sales Navigator by default. Pass --no-live to search the Pipeco
       description: "LinkedIn company IDs (up to 10)",
       ...DATABASE,
     }),
+    "with-job-titles": Flags.string({
+      multiple: true,
+      description: "Companies where someone holds one of these titles (up to 25)",
+      ...DATABASE,
+    }),
+    "without-job-titles": Flags.string({
+      multiple: true,
+      description: "Companies where no one holds any of these titles (up to 25)",
+      ...DATABASE,
+    }),
     limit: Flags.integer({ description: "Max companies (≤ 1000)" }),
     preview: Flags.boolean({
       description: "Synchronous preview (count + small sample) instead of async search",
@@ -147,6 +158,8 @@ Runs on LinkedIn Sales Navigator by default. Pass --no-live to search the Pipeco
       included_company_lists: flags["included-company-lists"],
       excluded_company_lists: flags["excluded-company-lists"],
       competitors_of: flags["competitors-of"],
+      with_job_titles: flags["with-job-titles"],
+      without_job_titles: flags["without-job-titles"],
       limit: flags.limit,
     });
     const client = await this.client(flags["api-key"]);

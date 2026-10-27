@@ -102,6 +102,8 @@ const databaseFilters = {
   included_company_lists: z.array(z.string()).optional(),
   excluded_company_lists: z.array(z.string()).optional(),
   competitors_of: z.array(z.string()).max(10).optional(),
+  with_job_titles: z.array(z.string()).max(25).optional(),
+  without_job_titles: z.array(z.string()).max(25).optional(),
 };
 
 const DATABASE_FILTER_KEYS = Object.keys(databaseFilters) as (keyof typeof databaseFilters)[];

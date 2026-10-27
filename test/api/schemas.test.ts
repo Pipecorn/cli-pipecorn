@@ -80,6 +80,34 @@ describe("schemas", () => {
     ).toThrow(/--no-live/);
   });
 
+  it("accepts job title filters with live: false", () => {
+    expect(
+      searchAccountsSchema.parse({
+        live: false,
+        with_job_titles: ["Head of Sales"],
+        without_job_titles: ["RevOps"],
+      }),
+    ).toMatchObject({
+      with_job_titles: ["Head of Sales"],
+      without_job_titles: ["RevOps"],
+    });
+  });
+
+  it("rejects job titles without live: false", () => {
+    expect(() =>
+      searchAccountsSchema.parse({ without_job_titles: ["CTO"] }),
+    ).toThrow(/--no-live/);
+  });
+
+  it("rejects more than 25 job titles", () => {
+    expect(() =>
+      searchAccountsSchema.parse({
+        live: false,
+        with_job_titles: Array.from({ length: 26 }, (_, i) => `Title ${String(i)}`),
+      }),
+    ).toThrow();
+  });
+
   it("rejects an unknown department", () => {
     expect(() =>
       searchAccountsSchema.parse({
