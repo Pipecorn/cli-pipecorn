@@ -154,6 +154,7 @@ export const advancedSearchLeadsSchema = z.object({
   keyword: z.string().optional(),
   job_titles: z.array(z.string()).optional(),
   excluded_job_titles: z.array(z.string()).optional(),
+  persona_id: z.uuid().optional(),
   past_titles: z.array(z.string()).optional(),
   excluded_past_titles: z.array(z.string()).optional(),
   included_locations: z.array(z.string()).optional(),

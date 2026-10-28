@@ -36,6 +36,20 @@ describe("schemas", () => {
     ).toThrow();
   });
 
+  it("accepts a persona_id UUID in lead search", () => {
+    expect(() =>
+      advancedSearchLeadsSchema.parse({
+        persona_id: "1f6b0f5a-2d8e-4c3a-9b8f-1a2b3c4d5e6f",
+      }),
+    ).not.toThrow();
+  });
+
+  it("rejects a persona name as persona_id", () => {
+    expect(() =>
+      advancedSearchLeadsSchema.parse({ persona_id: "Sales leaders" }),
+    ).toThrow();
+  });
+
   it("bulk enrich requires 2-100 contacts and exactly one enrichment_type", () => {
     expect(() =>
       bulkEnrichContactsSchema.parse({
