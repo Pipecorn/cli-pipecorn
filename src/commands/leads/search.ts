@@ -10,6 +10,7 @@ export default class LeadsSearch extends PipecornCommand {
   static override examples = [
     "$ pipecorn leads search --job-titles 'Head of Sales' --seniority-levels 130 --limit 50",
     "$ pipecorn leads search --preview --keyword 'GTM' --company-size 51-200",
+    "$ pipecorn leads search --persona-id 1f6b0f5a-2d8e-4c3a-9b8f-1a2b3c4d5e6f --included-locations 105015875",
   ];
 
   static override flags = {
@@ -18,6 +19,11 @@ export default class LeadsSearch extends PipecornCommand {
     keyword: Flags.string({ description: "Free-text keyword" }),
     "job-titles": Flags.string({ multiple: true }),
     "excluded-job-titles": Flags.string({ multiple: true }),
+    "persona-id": Flags.string({
+      description:
+        "Persona UUID (from `pipecorn personas`): searches its included and excluded job titles",
+      exclusive: ["job-titles", "excluded-job-titles"],
+    }),
     "past-titles": Flags.string({ multiple: true }),
     "included-locations": Flags.string({ multiple: true }),
     "excluded-locations": Flags.string({ multiple: true }),
@@ -46,6 +52,7 @@ export default class LeadsSearch extends PipecornCommand {
       keyword: flags.keyword,
       job_titles: flags["job-titles"],
       excluded_job_titles: flags["excluded-job-titles"],
+      persona_id: flags["persona-id"],
       past_titles: flags["past-titles"],
       included_locations: flags["included-locations"],
       excluded_locations: flags["excluded-locations"],
