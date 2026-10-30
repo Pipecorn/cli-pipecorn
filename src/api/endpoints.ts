@@ -24,6 +24,14 @@ export interface Search extends SearchSummary {
   results?: unknown[];
 }
 
+export interface LeadStatusUpdate {
+  search_id: string;
+  status: "qualified" | "disqualified";
+  rejection_reasons: string[];
+  updated: number;
+  unknown_lead_ids: string[];
+}
+
 export interface PipecornListItem {
   id: string;
   name?: string;
@@ -106,6 +114,11 @@ export const Searches = {
     c.get<Search>(`/searches/${encodeURIComponent(id)}`),
   delete: (c: PipecornClient, id: string) =>
     c.delete<unknown>(`/searches/${encodeURIComponent(id)}`),
+  updateLeadStatus: (c: PipecornClient, id: string, body: unknown) =>
+    c.patch<LeadStatusUpdate>(
+      `/searches/${encodeURIComponent(id)}/leads/status`,
+      body,
+    ),
 };
 
 export const Lists = {

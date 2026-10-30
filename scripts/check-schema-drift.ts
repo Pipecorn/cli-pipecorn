@@ -69,7 +69,7 @@ async function collectCliEndpoints(): Promise<Set<string>> {
   const out = new Set<string>();
   const file = path.join(repoRoot, "src", "api", "endpoints.ts");
   const text = await fs.readFile(file, "utf8");
-  const re = /c\.(get|post|put|delete)<[^>]*>\(\s*[`"']([^`"']+)[`"']/g;
+  const re = /c\.(get|post|put|patch|delete)<[^>]*>\(\s*[`"']([^`"']+)[`"']/g;
   for (const m of text.matchAll(re)) {
     const verb = m[1];
     const literal = m[2];

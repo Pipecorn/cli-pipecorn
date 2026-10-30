@@ -5,6 +5,7 @@ import {
   enrichAccountSchema,
   parseDepartmentRule,
   searchAccountsSchema,
+  updateLeadStatusSchema,
 } from "../../src/api/schemas.js";
 
 describe("schemas", () => {
@@ -145,5 +146,30 @@ describe("schemas", () => {
       min: undefined,
       max: 5,
     });
+  });
+
+  it("accepts lead IDs with a status", () => {
+    expect(() =>
+      updateLeadStatusSchema.parse({
+        lead_ids: ["0b9c7d2e-3f4a-4b5c-8d6e-7f8a9b0c1d2e"],
+        status: "qualified",
+      }),
+    ).not.toThrow();
+  });
+
+  it("rejects a lead ID that is not a UUID", () => {
+    expect(() =>
+      updateLeadStatusSchema.parse({ lead_ids: ["jane-doe"], status: "qualified" }),
+    ).toThrow();
+  });
+
+  it("rejects more than 1000 lead IDs", () => {
+    const leadIds = Array.from(
+      { length: 1001 },
+      () => "0b9c7d2e-3f4a-4b5c-8d6e-7f8a9b0c1d2e",
+    );
+    expect(() =>
+      updateLeadStatusSchema.parse({ lead_ids: leadIds, status: "qualified" }),
+    ).toThrow();
   });
 });
