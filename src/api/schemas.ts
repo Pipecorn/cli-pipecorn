@@ -210,6 +210,12 @@ export const singleEnrichContactSchema = z.object({
   webhook_url: z.string().url().optional(),
 });
 
+export const updateLeadStatusSchema = z.object({
+  lead_ids: z.array(z.uuid()).min(1).max(1000),
+  status: z.enum(["qualified", "disqualified"]),
+  reason: z.string().optional(),
+});
+
 export const createListSchema = z.object({
   name: z.string(),
   kind: z.enum(["account", "lead"]).optional(),

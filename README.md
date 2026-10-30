@@ -125,6 +125,7 @@ Every command, argument and flag. Generated from the command classes by
 * [`pipecorn jobs status ID`](#pipecorn-jobs-status-id)
 * [`pipecorn leads enrich`](#pipecorn-leads-enrich)
 * [`pipecorn leads search`](#pipecorn-leads-search)
+* [`pipecorn leads set-status ID`](#pipecorn-leads-set-status-id)
 * [`pipecorn lists`](#pipecorn-lists)
 * [`pipecorn lists create NAME`](#pipecorn-lists-create-name)
 * [`pipecorn lists export ID`](#pipecorn-lists-export-id)
@@ -172,7 +173,7 @@ EXAMPLES
   $ pipecorn accounts enrich --linkedin-url https://linkedin.com/company/stripe
 ```
 
-_See code: [src/commands/accounts/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/accounts/enrich.ts)_
+_See code: [src/commands/accounts/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/accounts/enrich.ts)_
 
 ## `pipecorn accounts search`
 
@@ -265,7 +266,7 @@ EXAMPLES
   $ pipecorn accounts search --preview --no-live --business-models saas --with-job-titles 'Head of Sales' --without-job-titles RevOps
 ```
 
-_See code: [src/commands/accounts/search.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/accounts/search.ts)_
+_See code: [src/commands/accounts/search.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/accounts/search.ts)_
 
 ## `pipecorn accounts stack`
 
@@ -292,7 +293,7 @@ DESCRIPTION
   Look up a company's tech stack.
 ```
 
-_See code: [src/commands/accounts/stack.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/accounts/stack.ts)_
+_See code: [src/commands/accounts/stack.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/accounts/stack.ts)_
 
 ## `pipecorn autocomplete [SHELL]`
 
@@ -340,7 +341,7 @@ DESCRIPTION
   Read a CLI configuration value.
 ```
 
-_See code: [src/commands/config/get.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/config/get.ts)_
+_See code: [src/commands/config/get.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/config/get.ts)_
 
 ## `pipecorn config list`
 
@@ -354,7 +355,7 @@ DESCRIPTION
   List all CLI configuration values.
 ```
 
-_See code: [src/commands/config/list.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/config/list.ts)_
+_See code: [src/commands/config/list.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/config/list.ts)_
 
 ## `pipecorn config set KEY VALUE`
 
@@ -372,7 +373,7 @@ DESCRIPTION
   Set a CLI configuration value.
 ```
 
-_See code: [src/commands/config/set.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/config/set.ts)_
+_See code: [src/commands/config/set.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/config/set.ts)_
 
 ## `pipecorn contacts enrich`
 
@@ -414,7 +415,7 @@ EXAMPLES
   $ pipecorn contacts enrich --batch contacts.csv --enrichment phone --dry-run
 ```
 
-_See code: [src/commands/contacts/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/contacts/enrich.ts)_
+_See code: [src/commands/contacts/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/contacts/enrich.ts)_
 
 ## `pipecorn contacts get ID`
 
@@ -438,7 +439,7 @@ DESCRIPTION
   Fetch a previously-enriched contact by enrichment id.
 ```
 
-_See code: [src/commands/contacts/get.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/contacts/get.ts)_
+_See code: [src/commands/contacts/get.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/contacts/get.ts)_
 
 ## `pipecorn credits`
 
@@ -459,7 +460,7 @@ DESCRIPTION
   Show the current credit balance for the authenticated account.
 ```
 
-_See code: [src/commands/credits.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/credits.ts)_
+_See code: [src/commands/credits.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/credits.ts)_
 
 ## `pipecorn help [COMMAND]`
 
@@ -500,7 +501,7 @@ DESCRIPTION
   List recent searches. Each search corresponds to an async lead/account job.
 ```
 
-_See code: [src/commands/jobs/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/jobs/index.ts)_
+_See code: [src/commands/jobs/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/jobs/index.ts)_
 
 ## `pipecorn jobs delete ID`
 
@@ -524,7 +525,7 @@ DESCRIPTION
   Delete a saved search.
 ```
 
-_See code: [src/commands/jobs/delete.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/jobs/delete.ts)_
+_See code: [src/commands/jobs/delete.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/jobs/delete.ts)_
 
 ## `pipecorn jobs status ID`
 
@@ -554,7 +555,7 @@ DESCRIPTION
   Show the status of a search (job). Use --watch to poll until it finishes.
 ```
 
-_See code: [src/commands/jobs/status.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/jobs/status.ts)_
+_See code: [src/commands/jobs/status.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/jobs/status.ts)_
 
 ## `pipecorn leads enrich`
 
@@ -579,7 +580,7 @@ DESCRIPTION
   Enrich a single LinkedIn profile.
 ```
 
-_See code: [src/commands/leads/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/leads/enrich.ts)_
+_See code: [src/commands/leads/enrich.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/leads/enrich.ts)_
 
 ## `pipecorn leads search`
 
@@ -638,7 +639,44 @@ EXAMPLES
   $ pipecorn leads search --persona-id 1f6b0f5a-2d8e-4c3a-9b8f-1a2b3c4d5e6f --included-locations 105015875
 ```
 
-_See code: [src/commands/leads/search.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/leads/search.ts)_
+_See code: [src/commands/leads/search.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/leads/search.ts)_
+
+## `pipecorn leads set-status ID`
+
+Mark leads of a search as qualified or disqualified, by the lead IDs `pipecorn jobs status` returns. IDs that match no lead of the search are listed in unknown_lead_ids.
+
+```
+USAGE
+  $ pipecorn leads set-status ID --lead-id <value>... --status qualified|disqualified [--api-key <value>] [--format
+    json|csv|table] [--quiet] [-o <value>] [--reason <value>]
+
+ARGUMENTS
+  ID  Search/job ID
+
+FLAGS
+  --lead-id=<value>...  (required) Lead ID (lead.id in the search results). Repeat or comma-separate, up to 1000
+  --reason=<value>      Why the leads are disqualified. Defaults to 'Manually disqualified'
+  --status=<option>     (required) New status
+                        <options: qualified|disqualified>
+
+GLOBAL FLAGS
+  -o, --output=<value>   Write output to a file instead of stdout
+      --api-key=<value>  [env: PIPECORN_API_KEY] Pipecorn API key (overrides env + saved credentials)
+      --format=<option>  Output format (default: table on TTY, json otherwise)
+                         <options: json|csv|table>
+      --quiet            Suppress spinners and progress output
+
+DESCRIPTION
+  Mark leads of a search as qualified or disqualified, by the lead IDs `pipecorn jobs status` returns. IDs that match no
+  lead of the search are listed in unknown_lead_ids.
+
+EXAMPLES
+  $ pipecorn leads set-status 0d6f1c5e-1b7a-4c1e-9a43-6f8e2a1b9c77 --status disqualified --lead-id 0b9c7d2e-3f4a-4b5c-8d6e-7f8a9b0c1d2e --reason 'Not in our ICP'
+
+  $ pipecorn leads set-status 0d6f1c5e-1b7a-4c1e-9a43-6f8e2a1b9c77 --status qualified --lead-id 0b9c7d2e-3f4a-4b5c-8d6e-7f8a9b0c1d2e,5e1f2a3b-4c5d-4e6f-9a7b-8c9d0e1f2a3b
+```
+
+_See code: [src/commands/leads/set-status.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/leads/set-status.ts)_
 
 ## `pipecorn lists`
 
@@ -659,7 +697,7 @@ DESCRIPTION
   List all account and lead lists.
 ```
 
-_See code: [src/commands/lists/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/lists/index.ts)_
+_See code: [src/commands/lists/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/lists/index.ts)_
 
 ## `pipecorn lists create NAME`
 
@@ -688,7 +726,7 @@ DESCRIPTION
   Create an empty list.
 ```
 
-_See code: [src/commands/lists/create.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/lists/create.ts)_
+_See code: [src/commands/lists/create.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/lists/create.ts)_
 
 ## `pipecorn lists export ID`
 
@@ -714,7 +752,7 @@ DESCRIPTION
   Export a list to CSV. Writes to stdout by default; use -o to write a file.
 ```
 
-_See code: [src/commands/lists/export.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/lists/export.ts)_
+_See code: [src/commands/lists/export.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/lists/export.ts)_
 
 ## `pipecorn lists show ID`
 
@@ -738,7 +776,7 @@ DESCRIPTION
   Show a single list and its members.
 ```
 
-_See code: [src/commands/lists/show.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/lists/show.ts)_
+_See code: [src/commands/lists/show.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/lists/show.ts)_
 
 ## `pipecorn lists update ID`
 
@@ -765,7 +803,7 @@ DESCRIPTION
   Rename a list.
 ```
 
-_See code: [src/commands/lists/update.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/lists/update.ts)_
+_See code: [src/commands/lists/update.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/lists/update.ts)_
 
 ## `pipecorn locations QUERY`
 
@@ -789,7 +827,7 @@ DESCRIPTION
   Resolve a free-text location to LinkedIn geoRegion IDs (use with --included-locations).
 ```
 
-_See code: [src/commands/locations.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/locations.ts)_
+_See code: [src/commands/locations.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/locations.ts)_
 
 ## `pipecorn login [KEY]`
 
@@ -822,7 +860,7 @@ EXAMPLES
   $ PIPECORN_API_KEY=YOUR_API_KEY pipecorn login
 ```
 
-_See code: [src/commands/login.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/login.ts)_
+_See code: [src/commands/login.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/login.ts)_
 
 ## `pipecorn logout`
 
@@ -843,7 +881,7 @@ DESCRIPTION
   Remove saved Pipecorn credentials from this machine.
 ```
 
-_See code: [src/commands/logout.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/logout.ts)_
+_See code: [src/commands/logout.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/logout.ts)_
 
 ## `pipecorn personas`
 
@@ -864,7 +902,7 @@ DESCRIPTION
   List ICP personas.
 ```
 
-_See code: [src/commands/personas/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/personas/index.ts)_
+_See code: [src/commands/personas/index.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/personas/index.ts)_
 
 ## `pipecorn personas show UUID`
 
@@ -888,7 +926,7 @@ DESCRIPTION
   Show a single persona.
 ```
 
-_See code: [src/commands/personas/show.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/personas/show.ts)_
+_See code: [src/commands/personas/show.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/personas/show.ts)_
 
 ## `pipecorn signals growth`
 
@@ -920,7 +958,7 @@ DESCRIPTION
   Find companies with notable headcount growth. Streams to --webhook-url.
 ```
 
-_See code: [src/commands/signals/growth.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/signals/growth.ts)_
+_See code: [src/commands/signals/growth.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/signals/growth.ts)_
 
 ## `pipecorn signals hiring`
 
@@ -959,7 +997,7 @@ DESCRIPTION
   Find companies actively hiring. Results stream to --webhook-url.
 ```
 
-_See code: [src/commands/signals/hiring.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/signals/hiring.ts)_
+_See code: [src/commands/signals/hiring.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/signals/hiring.ts)_
 
 ## `pipecorn signals job-changes`
 
@@ -988,7 +1026,7 @@ ALIASES
   $ pipecorn signals track-job-changes
 ```
 
-_See code: [src/commands/signals/job-changes.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/signals/job-changes.ts)_
+_See code: [src/commands/signals/job-changes.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/signals/job-changes.ts)_
 
 ## `pipecorn signals track-job-changes`
 
@@ -1036,7 +1074,7 @@ DESCRIPTION
   Show the authenticated account and credit balance.
 ```
 
-_See code: [src/commands/whoami.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.4.0/src/commands/whoami.ts)_
+_See code: [src/commands/whoami.ts](https://github.com/Pipecorn/cli-pipecorn/blob/v0.5.0/src/commands/whoami.ts)_
 <!-- commandsstop -->
 
 ## Development
