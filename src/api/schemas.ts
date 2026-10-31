@@ -204,7 +204,9 @@ export const singleEnrichContactSchema = z.object({
   domain: z.string().optional(),
   company_name: z.string().optional(),
   linkedin_url: z.string().url().optional(),
-  enrichment_type: z.array(z.enum(["email", "phone", "personal_email"])).length(1),
+  enrichment_type: z
+    .array(z.enum(["email", "phone", "personal_email"]))
+    .length(1),
   webhook_url: z.string().url().optional(),
 });
 

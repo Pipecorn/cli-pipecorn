@@ -65,37 +65,55 @@ export const Account = {
 
 export const Accounts = {
   search: (c: PipecornClient, body: unknown) =>
-    c.post<{ id?: string; preview?: unknown; total?: number }>("/accounts/search", body),
+    c.post<{ id?: string; preview?: unknown; total?: number }>(
+      "/accounts/search",
+      body,
+    ),
   searchPreview: (c: PipecornClient, body: unknown) =>
-    c.post<{ total_count?: number; preview?: unknown[] }>("/accounts/search/preview", body),
-  enrich: (c: PipecornClient, body: unknown) => c.post<unknown>("/accounts/single_enrich", body),
+    c.post<{ total_count?: number; preview?: unknown[] }>(
+      "/accounts/search/preview",
+      body,
+    ),
+  enrich: (c: PipecornClient, body: unknown) =>
+    c.post<unknown>("/accounts/single_enrich", body),
   bulkEnrich: (c: PipecornClient, body: unknown) =>
     c.post<{ enrichment_id?: string }>("/accounts/bulk_enrich", body),
   companyStack: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/accounts/company_stack", body),
-  headcount: (c: PipecornClient, body: unknown) => c.post<unknown>("/accounts/headcount", body),
+  headcount: (c: PipecornClient, body: unknown) =>
+    c.post<unknown>("/accounts/headcount", body),
   countProfiles: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/accounts/count_profiles", body),
-  extract: (c: PipecornClient, body: unknown) => c.post<unknown>("/accounts/", body),
+  extract: (c: PipecornClient, body: unknown) =>
+    c.post<unknown>("/accounts/", body),
 };
 
 export const Leads = {
   advancedSearch: (c: PipecornClient, body: unknown) =>
-    c.post<{ id?: string; preview?: unknown; total?: number }>("/leads/advanced_search", body),
+    c.post<{ id?: string; preview?: unknown; total?: number }>(
+      "/leads/advanced_search",
+      body,
+    ),
   advancedSearchPreview: (c: PipecornClient, body: unknown) =>
-    c.post<{ total_count?: number; preview?: unknown[] }>("/leads/advanced_search/preview", body),
-  enrich: (c: PipecornClient, body: unknown) => c.post<unknown>("/leads/single_enrich", body),
+    c.post<{ total_count?: number; preview?: unknown[] }>(
+      "/leads/advanced_search/preview",
+      body,
+    ),
+  enrich: (c: PipecornClient, body: unknown) =>
+    c.post<unknown>("/leads/single_enrich", body),
   bulkEnrich: (c: PipecornClient, body: unknown) =>
     c.post<{ enrichment_id?: string }>("/leads/bulk_enrich", body),
   searchInCompany: (c: PipecornClient, body: unknown) =>
     c.post<{ id?: string }>("/leads/search", body),
-  fromSalesNav: (c: PipecornClient, body: unknown) => c.post<{ id?: string }>("/leads", body),
+  fromSalesNav: (c: PipecornClient, body: unknown) =>
+    c.post<{ id?: string }>("/leads", body),
 };
 
 export const Contacts = {
   singleEnrich: (c: PipecornClient, body: unknown) =>
     c.post<{ enrichment_id?: string }>("/contacts/single_enrich", body),
-  get: (c: PipecornClient, id: string) => c.get<unknown>(`/contacts/${encodeURIComponent(id)}`),
+  get: (c: PipecornClient, id: string) =>
+    c.get<unknown>(`/contacts/${encodeURIComponent(id)}`),
   bulkEnrich: (c: PipecornClient, body: unknown) =>
     c.post<{ enrichment_id?: string }>("/contacts/bulk_enrich", body),
   checkAvailability: (c: PipecornClient, body: unknown) =>
@@ -106,16 +124,21 @@ export const Contacts = {
 
 export const Searches = {
   list: (c: PipecornClient) => c.get<SearchSummary[]>("/searches"),
-  get: (c: PipecornClient, id: string) => c.get<Search>(`/searches/${encodeURIComponent(id)}`),
+  get: (c: PipecornClient, id: string) =>
+    c.get<Search>(`/searches/${encodeURIComponent(id)}`),
   delete: (c: PipecornClient, id: string) =>
     c.delete<unknown>(`/searches/${encodeURIComponent(id)}`),
   updateLeadStatus: (c: PipecornClient, id: string, body: unknown) =>
-    c.patch<LeadStatusUpdate>(`/searches/${encodeURIComponent(id)}/leads/status`, body),
+    c.patch<LeadStatusUpdate>(
+      `/searches/${encodeURIComponent(id)}/leads/status`,
+      body,
+    ),
 };
 
 export const Lists = {
   list: (c: PipecornClient) => c.get<PipecornListItem[]>("/lists"),
-  create: (c: PipecornClient, body: unknown) => c.post<PipecornListItem>("/lists", body),
+  create: (c: PipecornClient, body: unknown) =>
+    c.post<PipecornListItem>("/lists", body),
   get: (c: PipecornClient, id: string) =>
     c.get<PipecornListItem>(`/lists/${encodeURIComponent(id)}`),
   update: (c: PipecornClient, id: string, body: unknown) =>
@@ -124,11 +147,13 @@ export const Lists = {
 
 export const Personas = {
   list: (c: PipecornClient) => c.get<Persona[]>("/personas"),
-  get: (c: PipecornClient, uuid: string) => c.get<Persona>(`/personas/${encodeURIComponent(uuid)}`),
+  get: (c: PipecornClient, uuid: string) =>
+    c.get<Persona>(`/personas/${encodeURIComponent(uuid)}`),
 };
 
 export const Locations = {
-  search: (c: PipecornClient, body: { query: string }) => c.post<unknown>("/locations", body),
+  search: (c: PipecornClient, body: { query: string }) =>
+    c.post<unknown>("/locations", body),
 };
 
 export const Intents = {
