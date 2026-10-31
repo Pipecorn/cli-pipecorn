@@ -4,37 +4,30 @@ import {
   bulkEnrichContactsSchema,
   enrichAccountSchema,
   parseDepartmentRule,
+  reportPhoneSchema,
   searchAccountsSchema,
   updateLeadStatusSchema,
 } from "../../src/api/schemas.js";
 
 describe("schemas", () => {
   it("accepts a minimal account search", () => {
-    expect(() =>
-      searchAccountsSchema.parse({ keyword: "agency", limit: 50 }),
-    ).not.toThrow();
+    expect(() => searchAccountsSchema.parse({ keyword: "agency", limit: 50 })).not.toThrow();
   });
 
   it("rejects bad company_size values", () => {
-    expect(() =>
-      searchAccountsSchema.parse({ company_size: ["bogus"] }),
-    ).toThrow();
+    expect(() => searchAccountsSchema.parse({ company_size: ["bogus"] })).toThrow();
   });
 
   it("requires one of domain / name / linkedin_url for enrich", () => {
     expect(() => enrichAccountSchema.parse({})).toThrow();
-    expect(() =>
-      enrichAccountSchema.parse({ domain: "stripe.com" }),
-    ).not.toThrow();
+    expect(() => enrichAccountSchema.parse({ domain: "stripe.com" })).not.toThrow();
   });
 
   it("validates seniority levels in lead search", () => {
     expect(() =>
       advancedSearchLeadsSchema.parse({ seniority_levels: ["120", "130"] }),
     ).not.toThrow();
-    expect(() =>
-      advancedSearchLeadsSchema.parse({ seniority_levels: ["VP"] }),
-    ).toThrow();
+    expect(() => advancedSearchLeadsSchema.parse({ seniority_levels: ["VP"] })).toThrow();
   });
 
   it("accepts a persona_id UUID in lead search", () => {
@@ -46,9 +39,7 @@ describe("schemas", () => {
   });
 
   it("rejects a persona name as persona_id", () => {
-    expect(() =>
-      advancedSearchLeadsSchema.parse({ persona_id: "Sales leaders" }),
-    ).toThrow();
+    expect(() => advancedSearchLeadsSchema.parse({ persona_id: "Sales leaders" })).toThrow();
   });
 
   it("bulk enrich requires 2-100 contacts and exactly one enrichment_type", () => {
@@ -90,9 +81,7 @@ describe("schemas", () => {
   });
 
   it("rejects database filters without live: false", () => {
-    expect(() =>
-      searchAccountsSchema.parse({ min_year_founded: 2018 }),
-    ).toThrow(/--no-live/);
+    expect(() => searchAccountsSchema.parse({ min_year_founded: 2018 })).toThrow(/--no-live/);
   });
 
   it("accepts job title filters with live: false", () => {
@@ -109,9 +98,7 @@ describe("schemas", () => {
   });
 
   it("rejects job titles without live: false", () => {
-    expect(() =>
-      searchAccountsSchema.parse({ without_job_titles: ["CTO"] }),
-    ).toThrow(/--no-live/);
+    expect(() => searchAccountsSchema.parse({ without_job_titles: ["CTO"] })).toThrow(/--no-live/);
   });
 
   it("rejects more than 25 job titles", () => {
@@ -164,12 +151,29 @@ describe("schemas", () => {
   });
 
   it("rejects more than 1000 lead IDs", () => {
-    const leadIds = Array.from(
-      { length: 1001 },
-      () => "0b9c7d2e-3f4a-4b5c-8d6e-7f8a9b0c1d2e",
-    );
+    const leadIds = Array.from({ length: 1001 }, () => "0b9c7d2e-3f4a-4b5c-8d6e-7f8a9b0c1d2e");
     expect(() =>
       updateLeadStatusSchema.parse({ lead_ids: leadIds, status: "qualified" }),
+    ).toThrow();
+  });
+
+  it("accepts a phone report", () => {
+    expect(() =>
+      reportPhoneSchema.parse({
+        linkedin_url: "https://www.linkedin.com/in/william-hewish",
+        phone: "+33612345678",
+        reason: "disconnected",
+      }),
+    ).not.toThrow();
+  });
+
+  it("rejects an unknown report reason", () => {
+    expect(() =>
+      reportPhoneSchema.parse({
+        linkedin_url: "https://www.linkedin.com/in/william-hewish",
+        phone: "+33612345678",
+        reason: "do_not_call",
+      }),
     ).toThrow();
   });
 });
