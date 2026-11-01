@@ -32,6 +32,18 @@ export interface LeadStatusUpdate {
   unknown_lead_ids: string[];
 }
 
+export interface PhoneReport {
+  enrichment_id: string;
+  reported: boolean;
+  replacement:
+    | "searching"
+    | "other_mobile_kept"
+    | "not_allowed"
+    | "insufficient_credits"
+    | "skipped";
+  status_url: string;
+}
+
 export interface PipecornListItem {
   id: string;
   name?: string;
@@ -106,6 +118,8 @@ export const Contacts = {
     c.post<{ enrichment_id?: string }>("/contacts/bulk_enrich", body),
   checkAvailability: (c: PipecornClient, body: unknown) =>
     c.post<unknown>("/contacts/check_data_availability", body),
+  reportPhone: (c: PipecornClient, body: unknown) =>
+    c.post<PhoneReport>("/contacts/report_phone", body),
 };
 
 export const Searches = {

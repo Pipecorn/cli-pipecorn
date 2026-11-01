@@ -210,6 +210,14 @@ export const singleEnrichContactSchema = z.object({
   webhook_url: z.string().url().optional(),
 });
 
+export const reportPhoneSchema = z.object({
+  linkedin_url: z.string().url(),
+  phone: z.string().min(1),
+  reason: z.enum(["wrong_person", "disconnected"]),
+  find_replacement: z.boolean().optional(),
+  webhook_url: z.string().url().optional(),
+});
+
 export const updateLeadStatusSchema = z.object({
   lead_ids: z.array(z.uuid()).min(1).max(1000),
   status: z.enum(["qualified", "disqualified"]),

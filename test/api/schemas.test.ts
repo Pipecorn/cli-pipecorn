@@ -4,6 +4,7 @@ import {
   bulkEnrichContactsSchema,
   enrichAccountSchema,
   parseDepartmentRule,
+  reportPhoneSchema,
   searchAccountsSchema,
   updateLeadStatusSchema,
 } from "../../src/api/schemas.js";
@@ -170,6 +171,26 @@ describe("schemas", () => {
     );
     expect(() =>
       updateLeadStatusSchema.parse({ lead_ids: leadIds, status: "qualified" }),
+    ).toThrow();
+  });
+
+  it("accepts a phone report", () => {
+    expect(() =>
+      reportPhoneSchema.parse({
+        linkedin_url: "https://www.linkedin.com/in/william-hewish",
+        phone: "+33612345678",
+        reason: "disconnected",
+      }),
+    ).not.toThrow();
+  });
+
+  it("rejects an unknown report reason", () => {
+    expect(() =>
+      reportPhoneSchema.parse({
+        linkedin_url: "https://www.linkedin.com/in/william-hewish",
+        phone: "+33612345678",
+        reason: "do_not_call",
+      }),
     ).toThrow();
   });
 });
