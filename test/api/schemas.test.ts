@@ -4,6 +4,7 @@ import {
   bulkEnrichContactsSchema,
   enrichAccountSchema,
   parseDepartmentRule,
+  reportEmailSchema,
   reportPhoneSchema,
   searchAccountsSchema,
   updateLeadStatusSchema,
@@ -190,6 +191,46 @@ describe("schemas", () => {
         linkedin_url: "https://www.linkedin.com/in/william-hewish",
         phone: "+33612345678",
         reason: "do_not_call",
+      }),
+    ).toThrow();
+  });
+
+  it("accepts an email report", () => {
+    expect(() =>
+      reportEmailSchema.parse({
+        linkedin_url: "https://www.linkedin.com/in/william-hewish",
+        email: "william@acme.com",
+        reason: "invalid_address",
+      }),
+    ).not.toThrow();
+  });
+
+  it("accepts a bounced email report", () => {
+    expect(() =>
+      reportEmailSchema.parse({
+        linkedin_url: "https://www.linkedin.com/in/william-hewish",
+        email: "william@acme.com",
+        reason: "bounced",
+      }),
+    ).not.toThrow();
+  });
+
+  it("rejects a phone report reason on an email report", () => {
+    expect(() =>
+      reportEmailSchema.parse({
+        linkedin_url: "https://www.linkedin.com/in/william-hewish",
+        email: "william@acme.com",
+        reason: "disconnected",
+      }),
+    ).toThrow();
+  });
+
+  it("rejects an email report without a valid address", () => {
+    expect(() =>
+      reportEmailSchema.parse({
+        linkedin_url: "https://www.linkedin.com/in/william-hewish",
+        email: "william",
+        reason: "wrong_person",
       }),
     ).toThrow();
   });
