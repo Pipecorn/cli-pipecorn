@@ -210,12 +210,20 @@ export const singleEnrichContactSchema = z.object({
   webhook_url: z.string().url().optional(),
 });
 
-export const reportPhoneSchema = z.object({
+const reportContactDataSchema = z.object({
   linkedin_url: z.string().url(),
-  phone: z.string().min(1),
-  reason: z.enum(["wrong_person", "disconnected"]),
   find_replacement: z.boolean().optional(),
   webhook_url: z.string().url().optional(),
+});
+
+export const reportPhoneSchema = reportContactDataSchema.extend({
+  phone: z.string().min(1),
+  reason: z.enum(["wrong_person", "disconnected"]),
+});
+
+export const reportEmailSchema = reportContactDataSchema.extend({
+  email: z.email(),
+  reason: z.enum(["bounced", "invalid_address", "wrong_domain", "wrong_person"]),
 });
 
 export const updateLeadStatusSchema = z.object({

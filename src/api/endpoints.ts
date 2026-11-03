@@ -32,17 +32,20 @@ export interface LeadStatusUpdate {
   unknown_lead_ids: string[];
 }
 
-export interface PhoneReport {
+interface ContactDataReport<OtherKept extends string> {
   enrichment_id: string;
   reported: boolean;
   replacement:
     | "searching"
-    | "other_mobile_kept"
+    | OtherKept
     | "not_allowed"
     | "insufficient_credits"
     | "skipped";
   status_url: string;
 }
+
+export type PhoneReport = ContactDataReport<"other_mobile_kept">;
+export type EmailReport = ContactDataReport<"other_email_kept">;
 
 export interface PipecornListItem {
   id: string;
@@ -120,6 +123,8 @@ export const Contacts = {
     c.post<unknown>("/contacts/check_data_availability", body),
   reportPhone: (c: PipecornClient, body: unknown) =>
     c.post<PhoneReport>("/contacts/report_phone", body),
+  reportEmail: (c: PipecornClient, body: unknown) =>
+    c.post<EmailReport>("/contacts/report_email", body),
 };
 
 export const Searches = {
