@@ -5,7 +5,7 @@ import { PipecornCommand } from "../../lib/base-command.js";
 
 export default class ContactsReportEmail extends PipecornCommand {
   static override description =
-    "Report an email address Pipecorn returned as wrong and search for another one of the same type. The new search costs what an enrichment of that type costs (3 credits for a work email), only if it finds an address; a personal email search also needs the personal email opt-in. Follow it with `pipecorn contacts get <enrichment_id>`.";
+    "Report an email address Pipecorn returned as wrong and search for another one of the same type. Reporting and the new search are free; a personal email search needs the personal email opt-in. Follow it with `pipecorn contacts get <enrichment_id>`.";
 
   static override examples = [
     "$ pipecorn contacts report-email --linkedin-url https://www.linkedin.com/in/william-hewish --email william@oldcompany.com --reason wrong_domain",

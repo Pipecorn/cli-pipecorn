@@ -39,7 +39,6 @@ interface ContactDataReport<OtherKept extends string> {
     | "searching"
     | OtherKept
     | "not_allowed"
-    | "insufficient_credits"
     | "skipped";
   status_url: string;
 }
