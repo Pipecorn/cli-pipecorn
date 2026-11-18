@@ -5,7 +5,7 @@ import { PipecornCommand } from "../../lib/base-command.js";
 
 export default class ContactsReportPhone extends PipecornCommand {
   static override description =
-    "Report a phone number Pipecorn returned as wrong and search for another one. The new search costs 30 credits, only if it finds a number; follow it with `pipecorn contacts get <enrichment_id>`.";
+    "Report a phone number Pipecorn returned as wrong and search for another one. Reporting and the new search are free; follow it with `pipecorn contacts get <enrichment_id>`.";
 
   static override examples = [
     "$ pipecorn contacts report-phone --linkedin-url https://www.linkedin.com/in/william-hewish --phone +33612345678 --reason wrong_person",
