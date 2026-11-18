@@ -5,7 +5,7 @@ import { PipecornCommand } from "../../lib/base-command.js";
 
 export default class ContactsReportPhone extends PipecornCommand {
   static override description =
-    "Report a phone number Pipecorn returned as wrong and search for another one. Reporting and the new search are free; follow it with `pipecorn contacts get <enrichment_id>`.";
+    "Report a phone number Pipecorn returned as wrong and search for another one. Reporting and the new search are free. With --no-find-replacement, the credits paid for the number come back unless the contact still has another mobile. Follow it with `pipecorn contacts get <enrichment_id>`.";
 
   static override examples = [
     "$ pipecorn contacts report-phone --linkedin-url https://www.linkedin.com/in/william-hewish --phone +33612345678 --reason wrong_person",
@@ -28,7 +28,8 @@ export default class ContactsReportPhone extends PipecornCommand {
       required: true,
     }),
     "find-replacement": Flags.boolean({
-      description: "Search for another number",
+      description:
+        "Search for another number. --no-find-replacement only reports it and refunds its credits when no other mobile is left",
       default: true,
       allowNo: true,
     }),

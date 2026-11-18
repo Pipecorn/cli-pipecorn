@@ -5,7 +5,7 @@ import { PipecornCommand } from "../../lib/base-command.js";
 
 export default class ContactsReportEmail extends PipecornCommand {
   static override description =
-    "Report an email address Pipecorn returned as wrong and search for another one of the same type. Reporting and the new search are free; a personal email search needs the personal email opt-in. Follow it with `pipecorn contacts get <enrichment_id>`.";
+    "Report an email address Pipecorn returned as wrong and search for another one of the same type. Reporting and the new search are free; a personal email search needs the personal email opt-in. With --no-find-replacement, the credits paid for the address come back unless the contact still has another verified email of the same type. Follow it with `pipecorn contacts get <enrichment_id>`.";
 
   static override examples = [
     "$ pipecorn contacts report-email --linkedin-url https://www.linkedin.com/in/william-hewish --email william@oldcompany.com --reason wrong_domain",
@@ -29,7 +29,8 @@ export default class ContactsReportEmail extends PipecornCommand {
       required: true,
     }),
     "find-replacement": Flags.boolean({
-      description: "Search for another address",
+      description:
+        "Search for another address. --no-find-replacement only reports it and refunds its credits when no other verified email of the same type is left",
       default: true,
       allowNo: true,
     }),

@@ -40,6 +40,7 @@ interface ContactDataReport<OtherKept extends string> {
     | OtherKept
     | "not_allowed"
     | "skipped";
+  credits_refunded: boolean;
   status_url: string;
 }
 

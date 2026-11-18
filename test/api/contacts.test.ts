@@ -18,10 +18,12 @@ const server = setupServer(
     if ((receivedBody as { phone: string }).phone === UNKNOWN_PHONE) {
       return HttpResponse.json({ error: "Phone not found on this contact" }, { status: 404 });
     }
+    const searching = (receivedBody as { find_replacement: boolean }).find_replacement;
     return HttpResponse.json({
       enrichment_id: ENRICHMENT_ID,
       reported: true,
-      replacement: "searching",
+      replacement: searching ? "searching" : "skipped",
+      credits_refunded: !searching,
       status_url: `${BASE}/contacts/${ENRICHMENT_ID}`,
     });
   }),
@@ -34,6 +36,7 @@ const server = setupServer(
       enrichment_id: ENRICHMENT_ID,
       reported: true,
       replacement: "other_email_kept",
+      credits_refunded: false,
       status_url: `${BASE}/contacts/${ENRICHMENT_ID}`,
     });
   }),
@@ -68,6 +71,12 @@ describe("Contacts.reportPhone", () => {
     const result = await Contacts.reportPhone(client, phoneBody);
 
     expect(result.replacement).toBe("searching");
+  });
+
+  it("says whether the credits came back", async () => {
+    const result = await Contacts.reportPhone(client, { ...phoneBody, find_replacement: false });
+
+    expect(result.credits_refunded).toBe(true);
   });
 
   it("throws a PipecornError when the number is not on the contact", async () => {
